@@ -40,7 +40,7 @@ com foco em potencializar a economia local ao eliminar a dependência de atraves
 
 | Camada           | Tecnologia                  |
 |------------------|-----------------------------|
-| Backend          | PHP 8.3 + Laravel 11        |
+| Backend          | PHP 8.5 + Laravel 11        |
 | Frontend         | Blade (SSR) + SCSS via Vite |
 | ORM              | Eloquent                    |
 | Banco de dados   | MySQL 8                     |

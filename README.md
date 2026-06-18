@@ -26,38 +26,15 @@ git clone <url-do-repositorio>
 cd projeto-extensao-pw2
 ```
 
-Copie o arquivo de variáveis de ambiente:
+Execute o setup completo com um único comando:
 
 ```bash
-cp .env.example .env
+make install
 ```
 
-Instale as dependências PHP (sem Sail ainda, usando o PHP do sistema ou um container temporário):
+Esse comando faz tudo na ordem correta: copia o `.env`, instala as dependências PHP via Docker (sem precisar de PHP local), sobe os containers, gera a chave da aplicação, roda migrations + seeders, cria o link de storage e compila os assets.
 
-```bash
-composer install
-```
-
-Suba os containers:
-
-```bash
-./vendor/bin/sail up -d
-```
-
-Gere a chave da aplicação, rode as migrations com seeders e crie o link de armazenamento:
-
-```bash
-./vendor/bin/sail artisan key:generate
-./vendor/bin/sail artisan migrate --seed
-./vendor/bin/sail artisan storage:link
-```
-
-Instale as dependências JavaScript e compile os assets:
-
-```bash
-./vendor/bin/sail npm install
-./vendor/bin/sail npm run build
-```
+> **Nota:** o `.env.example` já vem pré-configurado para o ambiente Docker local. Se precisar ajustar alguma variável (ex: credenciais externas), edite o `.env` gerado antes de rodar `make install`.
 
 ---
 
@@ -112,10 +89,11 @@ Execute `make` ou `make help` para listar todos os comandos. Os principais sao:
 
 **Setup inicial**
 
-| Comando          | O que faz                                            |
-|------------------|------------------------------------------------------|
-| `make setup`     | migrate + seed + storage:link em sequencia           |
-| `make storage`   | Cria o symlink public/storage -> storage/app/public  |
+| Comando          | O que faz                                                              |
+|------------------|------------------------------------------------------------------------|
+| `make install`   | Setup completo após clonar (composer, up, key, migrate, seed, assets)  |
+| `make setup`     | migrate + seed + storage:link em sequencia                             |
+| `make storage`   | Cria o symlink public/storage -> storage/app/public                    |
 
 **Assets**
 

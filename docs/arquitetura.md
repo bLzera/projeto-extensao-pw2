@@ -10,7 +10,7 @@
 com PHP, MySQL e Mailpit (para teste de e-mail), e funciona de forma idêntica em Linux e
 Windows via WSL2. Elimina o custo de manter um compose customizado para um projeto com
 prazo curto.
-**Serviços incluídos:** `laravel.test` (PHP 8.3 + app), `mysql` (MySQL 8), `mailpit` (SMTP local).
+**Serviços incluídos:** `laravel.test` (PHP 8.5 + app), `mysql` (MySQL 8), `mailpit` (SMTP local).
 
 ### ADR-02 — Laravel Breeze para autenticação
 **Decisão:** Usar o scaffold do Laravel Breeze (variante Blade).
@@ -201,28 +201,44 @@ Policies são descobertas automaticamente pelo Laravel via convenção de nome
 ```
 resources/scss/
 ├── app.scss              # entry point: importa todos os partials
-├── _variables.scss       # tokens de cor, tipografia, espaçamento, breakpoints
-├── _mixins.scss          # mixins reutilizáveis (ex: respond-to, flex-center)
-├── _base.scss            # reset, box-sizing, tipografia base, links
-├── _layout.scss          # container, header, nav, footer, grid geral
-├── _components/
-│   ├── _buttons.scss
-│   ├── _cards.scss       # card de produto, card de produtor
-│   ├── _forms.scss       # inputs, labels, mensagens de erro
-│   ├── _badges.scss      # badge de categoria, badge de disponibilidade
-│   ├── _pagination.scss
-│   └── _alerts.scss      # flash messages (sucesso, erro)
-└── _pages/
-    ├── _home.scss
-    ├── _product.scss
-    ├── _producer.scss
-    ├── _dashboard.scss
-    └── _auth.scss
+├── _variables.scss       # tokens de cor, tipografia, espaçamento, sombras, easing
+├── _mixins.scss          # mixins reutilizáveis (respond-to, flex-center, truncate)
+├── _base.scss            # reset, box-sizing, tipografia base (Fraunces em h1/h2), page-fade-in
+├── _layout.scss          # container, header, nav, footer, dropdown de perfil
+├── _catalog.scss         # hero, cards de produto/produtor, empty states, paginação, filtros
+├── _dashboard.scss       # formulários, tabela de produtos, stat cards, botões, badges
+├── _public.scss          # detalhe de produto, perfil de produtor
+└── _auth.scss            # formulários de login, registro e setup
 ```
 
 ---
 
-## 6. Estrutura de Diretórios do Projeto
+## 6. Makefile — Comandos de Desenvolvimento
+
+O projeto expõe todos os comandos frequentes via `make`. Nenhum PHP ou Composer precisam
+estar instalados localmente — tudo roda dentro dos containers Sail.
+
+| Comando | Descrição |
+|---|---|
+| `make install` | Setup completo após clonar: composer (via Docker), `up`, `key:generate`, migrate, seed, storage link, npm install e build |
+| `make up` | Sobe os containers em background |
+| `make down` | Derruba os containers |
+| `make restart` | Derruba e sobe (útil após editar o `.env`) |
+| `make logs` | Acompanha logs em tempo real |
+| `make bash` | Shell dentro do container da aplicação |
+| `make migrate` | Roda migrations pendentes |
+| `make seed` | Executa os seeders |
+| `make fresh` | `migrate:fresh --seed` — recria o banco do zero |
+| `make setup` | `migrate` + `seed` + `storage:link` em sequência |
+| `make npm-dev` | Vite em modo watch (hot-reload de SCSS/JS) |
+| `make npm-build` | Compila assets para produção |
+| `make clear` | Limpa caches de config, view, rota e app |
+| `make artisan CMD="..."` | Executa qualquer comando Artisan avulso |
+| `make composer CMD="..."` | Executa qualquer comando Composer avulso |
+
+---
+
+## 7. Estrutura de Diretórios do Projeto
 
 ```
 projeto-extensao-pw2/
@@ -269,6 +285,6 @@ projeto-extensao-pw2/
 ├── routes/
 │   └── web.php
 ├── docs/                    # este diretório
-├── docker-compose.yml       # gerenciado pelo Sail
+├── compose.yaml             # gerenciado pelo Sail
 └── README.md
 ```
