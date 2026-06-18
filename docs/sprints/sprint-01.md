@@ -21,11 +21,11 @@ em seguida. Configurar o `docker-compose.yml` do Sail para incluir os serviços:
 de banco corretas para o ambiente Sail.
 
 **Critérios de aceitação:**
-- [ ] Projeto Laravel 11 criado no diretório raiz
-- [ ] `make up` sobe os containers sem erros
-- [ ] `./vendor/bin/sail artisan --version` retorna a versão correta
-- [ ] Serviços `mysql` e `mailpit` acessíveis nos containers
-- [ ] `.env.example` atualizado com variáveis do Sail documentadas
+- [x] Projeto Laravel 11 criado no diretório raiz
+- [x] `make up` sobe os containers sem erros
+- [x] `./vendor/bin/sail artisan --version` retorna a versão correta
+- [x] Serviços `mysql` e `mailpit` acessíveis nos containers
+- [x] `.env.example` atualizado com variáveis do Sail documentadas
 
 **Esforço:** P
 **Dependências:** nenhuma
@@ -40,11 +40,11 @@ Instalar o pacote `laravel/breeze` via Composer e executar o scaffold com a vari
 Configurar `MustVerifyEmail` na model `User` para habilitar a verificação de e-mail.
 
 **Critérios de aceitação:**
-- [ ] `laravel/breeze` instalado e scaffold executado
-- [ ] Rotas de auth acessíveis (`/register`, `/login`, `/verify-email`)
-- [ ] `User` implements `MustVerifyEmail`
-- [ ] Driver de e-mail no `.env` apontando para Mailpit (`MAIL_HOST=mailpit`, `MAIL_PORT=1025`)
-- [ ] Mailpit acessível em `http://localhost:8025` para inspeção de e-mails
+- [x] `laravel/breeze` instalado e scaffold executado
+- [x] Rotas de auth acessíveis (`/register`, `/login`, `/verify-email`)
+- [x] `User` implements `MustVerifyEmail`
+- [x] Driver de e-mail no `.env` apontando para Mailpit (`MAIL_HOST=mailpit`, `MAIL_PORT=1025`)
+- [x] Mailpit acessível em `http://localhost:8025` para inspeção de e-mails
 
 **Esforço:** P
 **Dependências:** INF-01
@@ -90,10 +90,10 @@ Criar as migrations para as tabelas do projeto na ordem correta (respeitando FK 
 - timestamps
 
 **Critérios de aceitação:**
-- [ ] 3 migrations criadas com estrutura correta
-- [ ] `./vendor/bin/sail artisan migrate` executa sem erros
-- [ ] FKs com cascade delete configurados corretamente
-- [ ] Rollback (`migrate:rollback`) funciona sem erros
+- [x] 3 migrations criadas com estrutura correta
+- [x] `./vendor/bin/sail artisan migrate` executa sem erros
+- [x] FKs com cascade delete configurados corretamente
+- [x] Rollback (`migrate:rollback`) funciona sem erros
 
 **Esforço:** P
 **Dependências:** INF-01
@@ -110,9 +110,9 @@ frutas, verduras, legumes, laticínios, ovos, mel e derivados, grãos e cereais,
 artesanato, outros.
 
 **Critérios de aceitação:**
-- [ ] `CategorySeeder` criado com `upsert` (idempotente, pode rodar múltiplas vezes)
-- [ ] Registrado em `DatabaseSeeder::run()`
-- [ ] `./vendor/bin/sail artisan db:seed` popula a tabela `categories`
+- [x] `CategorySeeder` criado com `upsert` (idempotente, pode rodar múltiplas vezes)
+- [x] Registrado em `DatabaseSeeder::run()`
+- [x] `./vendor/bin/sail artisan db:seed` popula a tabela `categories`
 
 **Esforço:** P
 **Dependências:** INF-03
@@ -134,11 +134,11 @@ e tokens de design.
 - Breakpoints: `sm: 576px`, `md: 768px`, `lg: 992px`, `xl: 1200px`
 
 **Critérios de aceitação:**
-- [ ] Pacote `sass` instalado no `package.json`
-- [ ] Estrutura de diretórios SCSS criada
-- [ ] `vite.config.js` configurado para o entry SCSS
-- [ ] `npm run dev` compila sem erros
-- [ ] Variáveis base definidas em `_variables.scss`
+- [x] Pacote `sass` instalado no `package.json`
+- [x] Estrutura de diretórios SCSS criada
+- [x] `vite.config.js` configurado para o entry SCSS
+- [x] `npm run dev` compila sem erros
+- [x] Variáveis base definidas em `_variables.scss`
 
 **Esforço:** P
 **Dependências:** INF-01
@@ -156,10 +156,10 @@ navegação (logo, link para catálogo, link para produtores, botão de login/lo
 Criar também uma view de teste (`/`) que extende o layout para validar o pipeline completo.
 
 **Critérios de aceitação:**
-- [ ] `layouts/app.blade.php` criado com header, main e footer
-- [ ] Navegação exibe "Entrar" para visitantes e "Dashboard / Sair" para produtores logados
-- [ ] CSS compilado pelo Vite é carregado corretamente
-- [ ] Acesso a `http://localhost` renderiza a página sem erros 500
+- [x] `layouts/app.blade.php` criado com header, main e footer
+- [x] Navegação exibe "Entrar" para visitantes e "Dashboard / Sair" para produtores logados
+- [x] CSS compilado pelo Vite é carregado corretamente
+- [x] Acesso a `http://localhost` renderiza a página sem erros 500
 
 **Esforço:** P
 **Dependências:** INF-02, INF-05
@@ -174,8 +174,8 @@ e `public/storage`, habilitando o acesso público às imagens enviadas via uploa
 Documentar o comando no README para que seja executado no setup do ambiente.
 
 **Critérios de aceitação:**
-- [ ] Link simbólico `public/storage` → `storage/app/public` criado
-- [ ] Comando documentado no README em passo de setup (`make storage`)
+- [x] Link simbólico `public/storage` → `storage/app/public` criado
+- [x] Comando documentado no README em passo de setup (`make storage`)
 
 **Esforço:** P
 **Dependências:** INF-01
@@ -208,10 +208,10 @@ eliminando a necessidade de digitar `./vendor/bin/sail` a cada comando.
 | `make npm-build` | `sail npm run build`                      |
 
 **Critérios de aceitação:**
-- [ ] `Makefile` criado na raiz do projeto
-- [ ] Todos os targets funcionam após `make up`
-- [ ] `make setup` executa migrate, seed e storage:link em sequência
-- [ ] Targets declarados como `.PHONY`
+- [x] `Makefile` criado na raiz do projeto
+- [x] Todos os targets funcionam após `make up`
+- [x] `make setup` executa migrate, seed e storage:link em sequência
+- [x] Targets declarados como `.PHONY`
 
 **Esforço:** P
 **Dependências:** INF-01

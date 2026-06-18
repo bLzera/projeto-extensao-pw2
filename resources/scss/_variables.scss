@@ -1,0 +1,35 @@
+// Cores
+$color-primary:    #3a7d44;
+$color-secondary:  #e07b39;
+$color-bg:         #f9f6f1;
+$color-text:       #2d2d2d;
+$color-text-muted: #6b6b6b;
+$color-border:     #ddd8d0;
+$color-success:    #2d6a4f;
+$color-danger:     #c0392b;
+
+// Tipografia
+$font-family-base: 'Segoe UI', system-ui, sans-serif;
+$font-size-base:   1rem;
+$font-size-sm:     0.875rem;
+$font-size-lg:     1.125rem;
+$font-size-xl:     1.5rem;
+$font-size-2xl:    2rem;
+
+// Espaçamento (escala de 4px)
+$space-1: 4px;   $space-2: 8px;
+$space-3: 12px;  $space-4: 16px;
+$space-5: 24px;  $space-6: 32px;
+$space-7: 48px;  $space-8: 64px;
+
+// Breakpoints
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 992px;
+$bp-xl: 1200px;
+
+// Bordas e sombras
+$border-radius:    8px;
+$border-radius-sm: 4px;
+$shadow-sm:  0 1px 3px rgba(0, 0, 0, .08);
+$shadow-md:  0 4px 12px rgba(0, 0, 0, .12);

@@ -1,0 +1,37 @@
+@use 'variables' as *;
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    color: $color-text;
+    background-color: $color-bg;
+    line-height: 1.6;
+}
+
+a {
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    line-height: 1.3;
+}
