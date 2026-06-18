@@ -1,0 +1,58 @@
+# Feira Digital — Documentação do Projeto
+
+Marketplace de produtores locais desenvolvido como Projeto de Extensão da disciplina
+**Programação Web II** — Bacharelado em Sistemas de Informação, Unidavi.
+
+**Professor:** M.e Sandro Alencar Fernandes
+
+---
+
+## Índice
+
+- [Requisitos do Sistema](./requisitos.md)
+- [Arquitetura e Decisões Técnicas](./arquitetura.md)
+- [Sprint 1 — Infraestrutura e Fundação](./sprints/sprint-01.md)
+- [Sprint 2 — Autenticação do Produtor](./sprints/sprint-02.md)
+- [Sprint 3 — Gestão de Produtos](./sprints/sprint-03.md)
+- [Sprint 4 — Catálogo Público](./sprints/sprint-04.md)
+- [Sprint 5 — Interface, Validações e Documentação](./sprints/sprint-05.md)
+
+---
+
+## Visão Geral
+
+**Feira Digital** conecta pequenos produtores rurais e artesanais a consumidores locais,
+oferecendo uma vitrine digital sem intermediários. O sistema permite que produtores cadastrem
+e gerenciem suas ofertas, e que o público as encontre sem a necessidade de criar uma conta.
+
+O projeto se enquadra no **Programa de Desenvolvimento Regional** proposto pelo guia de extensão,
+com foco em potencializar a economia local ao eliminar a dependência de atravessadores.
+
+---
+
+## Stack Tecnológica
+
+| Camada           | Tecnologia                  |
+|------------------|-----------------------------|
+| Backend          | PHP 8.3 + Laravel 11        |
+| Frontend         | Blade (SSR) + SCSS via Vite |
+| ORM              | Eloquent                    |
+| Banco de dados   | MySQL 8                     |
+| Infraestrutura   | Docker via Laravel Sail     |
+| Autenticação     | Laravel Breeze (Blade)      |
+| Build de assets  | Vite                        |
+
+---
+
+## Fluxo Resumido de Usuários
+
+```
+Visitante
+  └── Navega catálogo, filtra por categoria, busca produto, vê perfil de produtor
+        └── [Nenhum cadastro necessário]
+
+Produtor
+  └── Acessa /register → preenche dados → verifica e-mail
+        └── Completa perfil do negócio (setup único)
+              └── Acessa dashboard → gerencia produtos (CRUD)
+```
