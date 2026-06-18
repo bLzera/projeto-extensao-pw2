@@ -26,14 +26,16 @@
         </div>
 
         <div class="auth-form__checkbox-row">
-            <input id="remember_me" type="checkbox" name="remember">
-            <label for="remember_me">Lembrar de mim</label>
-        </div>
-
-        <div class="auth-form__footer">
+            <div class="container__remember_me">
+                <input id="remember_me" type="checkbox" name="remember">
+                <label for="remember_me">Lembrar de mim</label>
+            </div>
             @if (Route::has('password.request'))
                 <a href="{{ route('password.request') }}">Esqueceu a senha?</a>
             @endif
+        </div>
+
+        <div class="auth-form__footer">
             <button class="btn btn--primary" type="submit">Entrar</button>
         </div>
     </form>

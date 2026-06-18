@@ -42,10 +42,15 @@
         </div>
 
         <div class="auth-form__footer">
-            <a href="{{ route('login') }}">Já tem conta?</a>
             <button class="btn btn--primary" type="submit">Cadastrar</button>
         </div>
+
     </form>
+
+    <p class="auth-form__alt-link">
+        Já tem uma conta?
+        <a href="{{ route('login') }}">Entre agora</a>
+    </p>        
 
 </x-guest-layout>
 
