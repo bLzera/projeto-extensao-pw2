@@ -1,0 +1,108 @@
+@use 'variables' as *;
+
+.form-card {
+    background: white;
+    max-width: 640px;
+    margin: $space-7 auto;
+    padding: $space-6;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+}
+
+.form-group {
+    margin-bottom: $space-4;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: $space-2;
+    color: $color-text;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: $space-3 $space-4;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-base;
+    color: $color-text;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 3px rgba($color-primary, .15);
+    }
+}
+
+.form-error {
+    display: block;
+    color: $color-danger;
+    font-size: $font-size-sm;
+    margin-top: $space-1;
+}
+
+.btn {
+    cursor: pointer;
+    padding: $space-3 $space-5;
+    border: none;
+    border-radius: $border-radius;
+    font-size: $font-size-base;
+    font-weight: 600;
+    transition: background .2s;
+    text-decoration: none;
+    display: inline-block;
+
+    &--primary {
+        background: $color-primary;
+        color: white;
+
+        &:hover {
+            background: darken($color-primary, 8%);
+        }
+    }
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: $space-4;
+    margin: $space-6 0;
+}
+
+.stat-card {
+    background: white;
+    border-radius: $border-radius;
+    padding: $space-5;
+    box-shadow: $shadow-sm;
+    text-align: center;
+
+    &__number {
+        font-size: $font-size-2xl;
+        font-weight: 700;
+        color: $color-primary;
+    }
+
+    &__label {
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+    }
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: $space-4;
+    margin-top: $space-6;
+}
+
+.profile-photo-preview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid $color-border;
+    margin-bottom: $space-4;
+    display: block;
+}
