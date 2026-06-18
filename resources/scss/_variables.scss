@@ -8,8 +8,13 @@ $color-border:     #ddd8d0;
 $color-success:    #2d6a4f;
 $color-danger:     #c0392b;
 
+// Superfícies
+$color-surface:      #fffef9;
+$color-surface-dark: #1c3a24;
+
 // Tipografia
-$font-family-base: 'Segoe UI', system-ui, sans-serif;
+$font-family-base:    'Segoe UI', system-ui, sans-serif;
+$font-family-display: 'Fraunces', Georgia, serif;
 $font-size-base:   1rem;
 $font-size-sm:     0.875rem;
 $font-size-lg:     1.125rem;
@@ -31,5 +36,18 @@ $bp-xl: 1200px;
 // Bordas e sombras
 $border-radius:    8px;
 $border-radius-sm: 4px;
+$border-radius-lg: 16px;
 $shadow-sm:  0 1px 3px rgba(0, 0, 0, .08);
 $shadow-md:  0 4px 12px rgba(0, 0, 0, .12);
+
+// Sombras com tint verde
+$shadow-warm-sm: 0 2px 8px rgba(58, 125, 68, .08);
+$shadow-warm-md: 0 8px 24px rgba(58, 125, 68, .14);
+
+// Easing
+$ease-out:    cubic-bezier(0.4, 0, 0.2, 1);
+$ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+// Transitions
+$transition-base:   .2s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-spring: .3s cubic-bezier(0.34, 1.56, 0.64, 1);

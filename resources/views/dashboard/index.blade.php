@@ -32,7 +32,11 @@
         <h2>Meus produtos</h2>
 
         @if ($products->isEmpty())
-            <p class="products-empty">Nenhum produto cadastrado ainda.</p>
+            <div class="empty-state">
+                <span class="empty-state__icon">📦</span>
+                <p class="empty-state__title">Nenhum produto cadastrado ainda</p>
+                <p class="empty-state__desc"><a href="{{ route('producer.products.create') }}">Adicione seu primeiro produto</a> e comece a vender.</p>
+            </div>
         @else
             <div class="table-wrapper">
                 <table class="products-table">
@@ -68,23 +72,25 @@
                                         {{ $product->is_available ? 'Disponível' : 'Indisponível' }}
                                     </span>
                                 </td>
-                                <td class="product-actions">
-                                    <a class="btn btn--sm" href="{{ route('producer.products.edit', $product) }}">Editar</a>
+                                <td>
+                                    <div class="product-actions">
+                                        <a class="btn btn--sm" href="{{ route('producer.products.edit', $product) }}">Editar</a>
 
-                                    <form method="POST" action="{{ route('producer.products.toggle', $product) }}" style="display:inline">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button class="btn btn--sm btn--outline" type="submit">
-                                            {{ $product->is_available ? 'Desativar' : 'Ativar' }}
-                                        </button>
-                                    </form>
+                                        <form method="POST" action="{{ route('producer.products.toggle', $product) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button class="btn btn--sm btn--outline" type="submit">
+                                                {{ $product->is_available ? 'Desativar' : 'Ativar' }}
+                                            </button>
+                                        </form>
 
-                                    <form method="POST" action="{{ route('producer.products.destroy', $product) }}" style="display:inline"
-                                        onsubmit="return confirm('Deseja excluir este produto?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn--sm btn--danger" type="submit">Excluir</button>
-                                    </form>
+                                        <form method="POST" action="{{ route('producer.products.destroy', $product) }}"
+                                            onsubmit="return confirm('Deseja excluir este produto?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn--sm btn--danger" type="submit">Excluir</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

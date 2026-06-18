@@ -9,7 +9,9 @@
 
     @if ($producers->isEmpty())
         <div class="empty-state">
-            <p>Nenhum produtor cadastrado ainda.</p>
+            <span class="empty-state__icon">🏡</span>
+            <p class="empty-state__title">Nenhum produtor encontrado</p>
+            <p class="empty-state__desc">Em breve novos produtores se juntam à feira.</p>
         </div>
     @else
         <div class="producers-grid">

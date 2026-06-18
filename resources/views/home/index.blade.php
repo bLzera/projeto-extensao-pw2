@@ -3,6 +3,14 @@
 @section('title', 'Catálogo — ' . config('app.name'))
 
 @section('content')
+<section class="hero">
+    <div class="container">
+        <h1 class="hero__headline">Da terra direto<br>pra sua mesa.</h1>
+        <p class="hero__sub">Produtos frescos de pequenos produtores da sua região, sem intermediários.</p>
+        <a class="hero__link" href="{{ route('producers.index') }}">Conhecer os produtores →</a>
+    </div>
+</section>
+
 <div class="container">
 
     {{-- Barra de busca --}}
@@ -53,9 +61,14 @@
     {{-- Grid de produtos --}}
     @if ($products->isEmpty())
         <div class="empty-state">
-            <p>Nenhum produto encontrado.</p>
             @if ($currentCategory || $busca)
-                <a href="{{ route('home') }}">Ver todos os produtos</a>
+                <span class="empty-state__icon">🔍</span>
+                <p class="empty-state__title">Nenhum resultado encontrado</p>
+                <p class="empty-state__desc">Tente outros termos ou <a href="{{ route('home') }}">limpe os filtros</a>.</p>
+            @else
+                <span class="empty-state__icon">🌿</span>
+                <p class="empty-state__title">Em breve mais produtos por aqui</p>
+                <p class="empty-state__desc">Estamos crescendo. Volte em breve!</p>
             @endif
         </div>
     @else

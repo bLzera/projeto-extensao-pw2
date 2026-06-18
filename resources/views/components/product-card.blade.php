@@ -9,10 +9,10 @@
                 <span>Sem foto</span>
             </div>
         @endif
+        <span class="product-card__badge">{{ $product->category->name }}</span>
     </div>
 
     <div class="product-card__body">
-        <span class="product-card__category">{{ $product->category->name }}</span>
         <h3 class="product-card__name">{{ $product->name }}</h3>
         <p class="product-card__producer">{{ $product->producer->farm_name }}</p>
         <p class="product-card__price">
