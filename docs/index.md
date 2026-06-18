@@ -18,6 +18,10 @@ Marketplace de produtores locais desenvolvido como Projeto de Extensão da disci
 - [Sprint 3 — Gestão de Produtos](./sprints/sprint-03.md)
 - [Sprint 4 — Catálogo Público](./sprints/sprint-04.md)
 - [Sprint 5 — Interface, Validações e Documentação](./sprints/sprint-05.md)
+- [Sprint 6 — Overhaul de Interface e Design System](./sprints/sprint-06.md)
+- [Sprint 7 — Catálogo e Descoberta](./sprints/sprint-07.md)
+- [Sprint 8 — Conta de Comprador e Engajamento Social](./sprints/sprint-08.md)
+- [Sprint 9 — Dashboard Avançado (possível)](./sprints/sprint-09.md)
 
 ---
 
@@ -50,11 +54,16 @@ com foco em potencializar a economia local ao eliminar a dependência de atraves
 
 ```
 Visitante
-  └── Navega catálogo, filtra por categoria, busca produto, vê perfil de produtor
+  └── Navega catálogo, filtra por categoria/cidade/ordenação, busca produto e produtor
         └── [Nenhum cadastro necessário]
+        └── Pode enviar mensagem de contato ao produtor (Sprint 9)
+
+Comprador (Sprint 8+)
+  └── Acessa /register/comprador → verifica e-mail → acessa conta
+        └── Salva favoritos, deixa avaliações de produtos
 
 Produtor
   └── Acessa /register → preenche dados → verifica e-mail
         └── Completa perfil do negócio (setup único)
-              └── Acessa dashboard → gerencia produtos (CRUD)
+              └── Acessa dashboard → gerencia produtos (CRUD + destaques)
 ```
