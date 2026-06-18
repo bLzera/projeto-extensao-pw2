@@ -24,6 +24,7 @@ help:
 	@echo "  make fresh         Recria o banco do zero e roda seed — destrói dados locais"
 	@echo ""
 	@echo "Setup inicial (rode uma vez após clonar)"
+	@echo "  make install       setup completo após clonar (composer, up, migrate, seed, assets)"
 	@echo "  make setup         migrate + seed + storage:link em sequência"
 	@echo "  make storage       Cria o symlink public/storage → storage/app/public"
 	@echo ""
@@ -44,6 +45,26 @@ help:
 	@echo "  make composer CMD=\"<cmd>\"  Qualquer comando composer avulso"
 	@echo "                     Ex: make composer CMD=\"require vendor/pacote\""
 	@echo ""
+
+# ─── Setup completo (primeira vez) ───────────────────────────────
+install:
+	@[ -f .env ] || cp .env.example .env
+	@echo "→ Instalando dependências PHP via Docker..."
+	docker run --rm -u "$$(id -u):$$(id -g)" \
+		-v "$$(pwd):/var/www/html" -w /var/www/html \
+		laravelsail/php85-composer:latest \
+		composer install --ignore-platform-reqs
+	@echo "→ Subindo containers..."
+	$(SAIL) up -d
+	@echo "→ Gerando chave da aplicação..."
+	$(SAIL) artisan key:generate
+	@echo "→ Banco de dados e storage..."
+	$(MAKE) setup
+	@echo "→ Instalando e compilando assets..."
+	$(SAIL) npm install
+	$(SAIL) npm run build
+	@echo ""
+	@echo "Pronto! Acesse http://localhost"
 
 # ─── Containers ───────────────────────────────────────────────────
 up:
