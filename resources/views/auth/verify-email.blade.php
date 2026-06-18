@@ -1,31 +1,28 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+
+    <p style="font-size: var(--fs-sm, 0.875rem); color: #6b6b6b; margin: 0 0 1rem;">
+        Obrigado por se cadastrar! Antes de começar, verifique seu e-mail clicando no link que enviamos para você.
+        Se não recebeu, podemos reenviar.
+    </p>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        <div class="auth-form__status">
+            Um novo link de verificação foi enviado para o endereço de e-mail fornecido.
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; gap: 1rem;">
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
-            </div>
+            <button class="btn btn--primary" type="submit">Reenviar e-mail</button>
         </form>
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
+            <button type="submit" style="background: none; border: none; cursor: pointer; font-size: 0.875rem; color: #6b6b6b; font-family: inherit;">
+                Sair
             </button>
         </form>
     </div>
+
 </x-guest-layout>

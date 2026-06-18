@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('producers', function (Blueprint $table) {
             $table->id();
+            // Exclusão do usuário remove automaticamente seu perfil de produtor.
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
             $table->string('farm_name');
             $table->text('description')->nullable();

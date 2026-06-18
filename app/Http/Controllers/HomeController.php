@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    /**
+     * Exibe o catálogo público com filtragem por categoria e busca por nome.
+     */
     public function index(Request $request)
     {
         $categories = Category::orderBy('name')->get();
@@ -22,7 +25,7 @@ class HomeController extends Controller
             )
             ->latest()
             ->paginate(12)
-            ->withQueryString();
+            ->withQueryString(); // mantém ?categoria= e ?busca= nos links de paginação
 
         return view('home.index', [
             'products'        => $products,

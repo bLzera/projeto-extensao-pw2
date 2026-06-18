@@ -1,0 +1,83 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+}
+
+.auth-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+}
+
+.auth-form__label {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-text;
+}
+
+.auth-form__input {
+    width: 100%;
+    padding: $space-3 $space-4;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-base;
+    font-family: $font-family-base;
+    color: $color-text;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 3px rgba($color-primary, .15);
+    }
+}
+
+.auth-form__error {
+    display: block;
+    color: $color-danger;
+    font-size: $font-size-sm;
+}
+
+.auth-form__checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+
+    input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+    }
+}
+
+.auth-form__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-3;
+    margin-top: $space-2;
+
+    a {
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+}
+
+.auth-form__status {
+    padding: $space-3 $space-4;
+    background: #d1fae5;
+    color: $color-success;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-sm;
+    font-weight: 500;
+}

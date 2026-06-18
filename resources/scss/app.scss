@@ -1,4 +1,8 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 @use 'base';
+@use 'layout';
+@use 'catalog';
+@use 'public';
+@use 'auth';
 @use 'dashboard';

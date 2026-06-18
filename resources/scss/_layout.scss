@@ -1,0 +1,162 @@
+@use 'sass:color';
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $space-5;
+
+    @include respond-to($bp-sm) {
+        padding: 0 $space-4;
+    }
+}
+
+.site-header {
+    background: white;
+    border-bottom: 1px solid $color-border;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        gap: $space-5;
+    }
+}
+
+.site-logo {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    color: $color-primary;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+        color: color.adjust($color-primary, $lightness: -8%);
+        text-decoration: none;
+    }
+}
+
+.site-nav {
+    display: flex;
+    gap: $space-5;
+    flex: 1;
+
+    a {
+        color: $color-text;
+        font-weight: 500;
+
+        &:hover {
+            color: $color-primary;
+            text-decoration: none;
+        }
+    }
+
+    @include respond-to($bp-sm) {
+        display: none;
+    }
+}
+
+.site-auth {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    flex-shrink: 0;
+
+    a {
+        color: $color-text;
+        font-weight: 500;
+
+        &:hover {
+            color: $color-primary;
+            text-decoration: none;
+        }
+    }
+
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: $color-text-muted;
+        font-size: $font-size-base;
+        font-family: $font-family-base;
+        padding: 0;
+
+        &:hover {
+            color: $color-danger;
+        }
+    }
+}
+
+.flash {
+    padding: $space-3 $space-5;
+    text-align: center;
+    font-weight: 500;
+
+    &--success {
+        background: #d1fae5;
+        color: $color-success;
+        border-bottom: 1px solid #6ee7b7;
+    }
+
+    &--error {
+        background: #fee2e2;
+        color: $color-danger;
+        border-bottom: 1px solid #fca5a5;
+    }
+}
+
+.site-main {
+    min-height: calc(100vh - 64px - 56px);
+    padding: $space-6 0;
+}
+
+.site-footer {
+    background: white;
+    border-top: 1px solid $color-border;
+    padding: $space-4 0;
+
+    .container {
+        text-align: center;
+    }
+
+    p {
+        margin: 0;
+        color: $color-text-muted;
+        font-size: $font-size-sm;
+    }
+}
+
+// Auth layout
+.auth-wrapper {
+    min-height: 100vh;
+    @include flex-center;
+    background: $color-bg;
+    padding: $space-5;
+}
+
+.auth-box {
+    background: white;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    padding: $space-7 $space-6;
+    width: 100%;
+    max-width: 420px;
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: $space-6;
+
+    a {
+        font-size: $font-size-xl;
+        font-weight: 700;
+        color: $color-primary;
+        text-decoration: none;
+    }
+}
