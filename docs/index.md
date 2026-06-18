@@ -12,6 +12,7 @@ Marketplace de produtores locais desenvolvido como Projeto de Extensão da disci
 - [Requisitos do Sistema](./requisitos.md)
 - [Arquitetura e Decisões Técnicas](./arquitetura.md)
 - [Rotas da Aplicação](./rotas.md)
+- [Fluxos de Requisição](./fluxos-de-requisicao.md)
 - [Sprint 1 — Infraestrutura e Fundação](./sprints/sprint-01.md)
 - [Sprint 2 — Autenticação do Produtor](./sprints/sprint-02.md)
 - [Sprint 3 — Gestão de Produtos](./sprints/sprint-03.md)

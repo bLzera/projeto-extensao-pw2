@@ -164,21 +164,35 @@ PATCH  /dashboard/produtos/{product}/disponibilidade
 
 ## 4. Estrutura de Controllers
 
+O controller base (`app/Http/Controllers/Controller.php`) inclui a trait
+`AuthorizesRequests`, que disponibiliza `$this->authorize()` em todos os controllers.
+Esse método aciona o sistema de Policies do Laravel para verificar permissões.
+
 ```
 app/Http/Controllers/
+├── Controller.php                   # base: usa AuthorizesRequests
 ├── HomeController.php               # GET / — catálogo público
 ├── ProductController.php            # GET /produtos/{product}
 ├── ProducerController.php           # GET /produtores, /produtores/{producer}
 ├── Auth/
-│   ├── ...                          # gerado pelo Breeze
-│   └── ProducerSetupController.php  # GET|POST /setup
+│   └── ...                          # gerado pelo Breeze
 ├── Producer/
 │   ├── DashboardController.php      # GET /dashboard
 │   ├── ProfileController.php        # GET|PUT /dashboard/perfil
-│   └── ProductController.php        # CRUD /dashboard/produtos
+│   ├── ProductController.php        # CRUD /dashboard/produtos
+│   └── SetupController.php          # GET|POST /setup
 └── Middleware/
     └── EnsureProducerProfileComplete.php
 ```
+
+### Policies
+
+| Policy           | Model   | Métodos           | Regra                                          |
+|------------------|---------|-------------------|------------------------------------------------|
+| `ProductPolicy`  | Product | `update`, `delete`| `$user->producer->id === $product->producer_id`|
+
+Policies são descobertas automaticamente pelo Laravel via convenção de nome
+(`Product` → `ProductPolicy`). Não é necessário registro manual.
 
 ---
 

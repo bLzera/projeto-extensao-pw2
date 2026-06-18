@@ -1,5 +1,7 @@
 <x-guest-layout>
 
+    <p class="auth-form__subtitle">Crie sua conta para vender na Feira Digital.</p>
+
     <form class="auth-form" method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -46,3 +48,4 @@
     </form>
 
 </x-guest-layout>
+

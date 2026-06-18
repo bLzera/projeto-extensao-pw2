@@ -38,4 +38,8 @@
         </div>
     </form>
 
+    <p class="auth-form__alt-link">
+        Ainda não tem conta? <a href="{{ route('register') }}">Cadastre-se como produtor</a>
+    </p>
+
 </x-guest-layout>

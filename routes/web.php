@@ -4,25 +4,31 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProducerController;
 use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\Producer\DashboardController;
 use App\Http\Controllers\Producer\ProductController as DashboardProductController;
 use App\Http\Controllers\Producer\SetupController;
 use App\Http\Controllers\Producer\ProfileController as ProducerProfileController;
+
 use Illuminate\Support\Facades\Route;
 
 // Catálogo público
+// Os ->name() no final das rotas definem um alias pra rota
+// Esse alias pode ser referido em qualquer outro lugar do app
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produtos/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/produtores', [ProducerController::class, 'index'])->name('producers.index');
 Route::get('/produtores/{producer}', [ProducerController::class, 'show'])->name('producers.show');
 
 // Setup de perfil — auth + verified, sem middleware de perfil (evita loop)
+// Middlewares 'auth' e 'verified' padrão do Breeze
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/setup', [SetupController::class, 'create'])->name('producer.setup');
     Route::post('/setup', [SetupController::class, 'store'])->name('producer.setup.store');
 });
 
 // Dashboard e perfil — auth + verified + perfil completo
+// Middleware 'producer.profile' alias do nosso middleware customizado
 Route::middleware(['auth', 'verified', 'producer.profile'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/profile', [ProducerProfileController::class, 'edit'])->name('producer.profile.edit');
