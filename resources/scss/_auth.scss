@@ -9,6 +9,12 @@
     padding: 0 24px;
 }
 
+// Quando o formulário é o último elemento do box (páginas sem a faixa
+// inferior .auth-form__alt-link), garante respiro até a borda arredondada.
+.auth-box > .auth-form:last-child {
+    padding-bottom: $space-6;
+}
+
 .auth-form__group {
     display: flex;
     flex-direction: column;
@@ -94,9 +100,47 @@
 
 .auth-form__subtitle {
     margin: 0;
+    padding: 0 24px;
     font-size: $font-size-sm;
     color: $color-text-muted;
     text-align: center;
+    line-height: 1.6;
+}
+
+// Bloco de ações empilhadas (ex.: verify-email): botão primário largo + link
+.auth-form__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $space-4;
+    width: 100%;
+    padding: 0 24px $space-6;
+    box-sizing: border-box;
+
+    form {
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+// Botão de ação secundária com aparência de link (ex.: "Sair" no verify-email)
+.auth-form__link-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    cursor: pointer;
+    transition: color $transition-base;
+
+    &:hover {
+        color: $color-primary;
+    }
 }
 
 .auth-form__alt-link {

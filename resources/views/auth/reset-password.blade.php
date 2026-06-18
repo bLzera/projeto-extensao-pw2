@@ -32,7 +32,6 @@
         </div>
 
         <div class="auth-form__footer">
-            <span></span>
             <button class="btn btn--primary" type="submit">Redefinir senha</button>
         </div>
     </form>
