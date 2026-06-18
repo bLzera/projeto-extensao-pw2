@@ -139,17 +139,17 @@ POST /setup                          ProducerSetupController@store
 GET  /dashboard                      DashboardController@index
 
 // ─── Perfil do Produtor — gerenciamento (mesmos guards) ──────────
-GET  /dashboard/perfil/editar        Producer\ProfileController@edit
-PUT  /dashboard/perfil               Producer\ProfileController@update
+GET   /dashboard/profile             Producer\ProfileController@edit
+PATCH /dashboard/profile             Producer\ProfileController@update
 
 // ─── Produtos — gerenciamento (mesmos guards) ────────────────────
-GET  /dashboard/produtos/novo        Producer\ProductController@create
-POST /dashboard/produtos             Producer\ProductController@store
-GET  /dashboard/produtos/{product}/editar  Producer\ProductController@edit
-PUT  /dashboard/produtos/{product}   Producer\ProductController@update
-DELETE /dashboard/produtos/{product} Producer\ProductController@destroy
-PATCH /dashboard/produtos/{product}/disponibilidade
-                                     Producer\ProductController@toggleAvailability
+GET    /dashboard/produtos/criar              Producer\ProductController@create
+POST   /dashboard/produtos                    Producer\ProductController@store
+GET    /dashboard/produtos/{product}/editar   Producer\ProductController@edit
+PUT    /dashboard/produtos/{product}          Producer\ProductController@update
+DELETE /dashboard/produtos/{product}          Producer\ProductController@destroy
+PATCH  /dashboard/produtos/{product}/disponibilidade
+                                              Producer\ProductController@toggleAvailability
 ```
 
 ### Middleware por grupo de rota

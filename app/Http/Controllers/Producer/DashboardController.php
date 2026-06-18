@@ -8,11 +8,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $producer = auth()->user()->producer()->with('products')->first();
+        $producer = auth()->user()->producer;
 
-        $totalProducts = $producer->products->count();
-        $availableProducts = $producer->products->where('is_available', true)->count();
+        $products = $producer->products()
+            ->with('category')
+            ->latest()
+            ->paginate(10);
 
-        return view('dashboard.index', compact('producer', 'totalProducts', 'availableProducts'));
+        $totalProducts = $producer->products()->count();
+        $availableProducts = $producer->products()->where('is_available', true)->count();
+
+        return view('dashboard.index', compact('producer', 'products', 'totalProducts', 'availableProducts'));
     }
 }

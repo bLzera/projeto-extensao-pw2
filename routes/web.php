@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Producer\DashboardController;
+use App\Http\Controllers\Producer\ProductController;
 use App\Http\Controllers\Producer\SetupController;
 use App\Http\Controllers\Producer\ProfileController as ProducerProfileController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,13 @@ Route::middleware(['auth', 'verified', 'producer.profile'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/profile', [ProducerProfileController::class, 'edit'])->name('producer.profile.edit');
     Route::patch('/dashboard/profile', [ProducerProfileController::class, 'update'])->name('producer.profile.update');
+
+    Route::get('/dashboard/produtos/criar', [ProductController::class, 'create'])->name('producer.products.create');
+    Route::post('/dashboard/produtos', [ProductController::class, 'store'])->name('producer.products.store');
+    Route::get('/dashboard/produtos/{product}/editar', [ProductController::class, 'edit'])->name('producer.products.edit');
+    Route::put('/dashboard/produtos/{product}', [ProductController::class, 'update'])->name('producer.products.update');
+    Route::delete('/dashboard/produtos/{product}', [ProductController::class, 'destroy'])->name('producer.products.destroy');
+    Route::patch('/dashboard/produtos/{product}/disponibilidade', [ProductController::class, 'toggleAvailability'])->name('producer.products.toggle');
 });
 
 // Perfil do usuário (Breeze)

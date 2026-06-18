@@ -23,9 +23,9 @@ produtos que pertencem ao seu próprio perfil de produtor. Registrar a policy no
 - `delete(User $user, Product $product)`: mesma lógica
 
 **Critérios de aceitação:**
-- [ ] `ProductPolicy` criada em `app/Policies/`
-- [ ] Policy registrada e funcional
-- [ ] Tentativa de editar produto de outro produtor retorna 403
+- [x] `ProductPolicy` criada em `app/Policies/`
+- [x] Policy registrada e funcional
+- [x] Tentativa de editar produto de outro produtor retorna 403
 
 **Esforço:** P
 **Dependências:** AUTH-01
@@ -51,9 +51,9 @@ e edição de produto. A distinção entre os dois é que no update a foto é op
 - `UpdateProductRequest` → `photo`: nullable, image, max:2048, mimes:jpg,jpeg,png,webp
 
 **Critérios de aceitação:**
-- [ ] Dois Form Requests criados em `app/Http/Requests/`
-- [ ] Validação de `price` aceita vírgula e ponto como separador decimal (cast manual)
-- [ ] `category_id` validado contra registros existentes
+- [x] Dois Form Requests criados em `app/Http/Requests/`
+- [x] Validação de `price` aceita vírgula e ponto como separador decimal (cast manual)
+- [x] `category_id` validado contra registros existentes
 
 **Esforço:** P
 **Dependências:** AUTH-01
@@ -75,13 +75,13 @@ prefixo `/dashboard/produtos` e protegidas pelos três middlewares (auth, verifi
 - `toggleAvailability(Product)` — alterna `is_available` e retorna ao dashboard
 
 **Critérios de aceitação:**
-- [ ] CRUD completo funcional
-- [ ] Route model binding funcionando em `edit`, `update`, `destroy`, `toggleAvailability`
-- [ ] Policy `ProductPolicy` aplicada em `update`, `destroy` (via `$this->authorize()`)
-- [ ] Upload de foto salvo em `storage/app/public/products/` com nome único (`Str::uuid()`)
-- [ ] Foto anterior removida ao atualizar com nova imagem
-- [ ] Foto removida ao deletar produto
-- [ ] Redirecionamentos com flash messages (sucesso/erro)
+- [x] CRUD completo funcional
+- [x] Route model binding funcionando em `edit`, `update`, `destroy`, `toggleAvailability`
+- [x] Policy `ProductPolicy` aplicada em `update`, `destroy` (via `$this->authorize()`)
+- [x] Upload de foto salvo em `storage/app/public/products/` com nome único (`Str::uuid()`)
+- [x] Foto anterior removida ao atualizar com nova imagem
+- [x] Foto removida ao deletar produto
+- [x] Redirecionamentos com flash messages (sucesso/erro)
 
 **Esforço:** M
 **Dependências:** PROD-01, PROD-02
@@ -104,12 +104,12 @@ objeto = edição) e `$action` (URL do POST/PUT) passadas pelo controller.
 - Disponível (checkbox)
 
 **Critérios de aceitação:**
-- [ ] View única reutilizada em `create` e `edit`
-- [ ] Campos pré-preenchidos no modo edição
-- [ ] Foto atual exibida no modo edição (se existir)
-- [ ] Erros de validação exibidos por campo
-- [ ] Select de unidade com opções fixas razoáveis
-- [ ] Select de categoria populado dinamicamente
+- [x] View única reutilizada em `create` e `edit`
+- [x] Campos pré-preenchidos no modo edição
+- [x] Foto atual exibida no modo edição (se existir)
+- [x] Erros de validação exibidos por campo
+- [x] Select de unidade com opções fixas razoáveis
+- [x] Select de categoria populado dinamicamente
 
 **Esforço:** M
 **Dependências:** PROD-03
@@ -125,11 +125,11 @@ a tabela de produtos com: foto (thumbnail), nome, categoria, preço, unidade, st
 (disponível/indisponível) e ações (editar, toggle disponibilidade, excluir).
 
 **Critérios de aceitação:**
-- [ ] Listagem exibe apenas produtos do produtor autenticado
-- [ ] Paginação server-side com 10 itens por página
-- [ ] Botão de toggle disponibilidade usa método PATCH (formulário HTML com `@method('PATCH')`)
-- [ ] Botão de excluir usa método DELETE com confirmação (atributo `onclick="confirm()"`)
-- [ ] Contagem no topo atualizada dinamicamente
+- [x] Listagem exibe apenas produtos do produtor autenticado
+- [x] Paginação server-side com 10 itens por página
+- [x] Botão de toggle disponibilidade usa método PATCH (formulário HTML com `@method('PATCH')`)
+- [x] Botão de excluir usa método DELETE com confirmação (atributo `onclick="confirm()"`)
+- [x] Contagem no topo atualizada dinamicamente
 
 **Esforço:** P
 **Dependências:** PROD-03, PROD-04

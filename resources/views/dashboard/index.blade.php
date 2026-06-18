@@ -8,6 +8,10 @@
         <h1>Olá, {{ $producer->farm_name }}!</h1>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert--success">{{ session('success') }}</div>
+    @endif
+
     <div class="dashboard-stats">
         <div class="stat-card">
             <div class="stat-card__number">{{ $totalProducts }}</div>
@@ -22,6 +26,76 @@
     <div class="dashboard-actions">
         <a class="btn btn--primary" href="{{ route('producer.products.create') }}">Adicionar produto</a>
         <a class="btn" href="{{ route('producer.profile.edit') }}">Editar perfil</a>
+    </div>
+
+    <div class="products-table-section">
+        <h2>Meus produtos</h2>
+
+        @if ($products->isEmpty())
+            <p class="products-empty">Nenhum produto cadastrado ainda.</p>
+        @else
+            <div class="table-wrapper">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Unidade</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>
+                                    @if ($product->photo)
+                                        <img class="product-thumb"
+                                            src="{{ Storage::url($product->photo) }}"
+                                            alt="{{ $product->name }}">
+                                    @else
+                                        <div class="product-thumb product-thumb--empty"></div>
+                                    @endif
+                                </td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $product->category->name }}</td>
+                                <td>R$ {{ number_format($product->price, 2, ',', '.') }}</td>
+                                <td>{{ $product->unit }}</td>
+                                <td>
+                                    <span class="badge {{ $product->is_available ? 'badge--success' : 'badge--muted' }}">
+                                        {{ $product->is_available ? 'Disponível' : 'Indisponível' }}
+                                    </span>
+                                </td>
+                                <td class="product-actions">
+                                    <a class="btn btn--sm" href="{{ route('producer.products.edit', $product) }}">Editar</a>
+
+                                    <form method="POST" action="{{ route('producer.products.toggle', $product) }}" style="display:inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button class="btn btn--sm btn--outline" type="submit">
+                                            {{ $product->is_available ? 'Desativar' : 'Ativar' }}
+                                        </button>
+                                    </form>
+
+                                    <form method="POST" action="{{ route('producer.products.destroy', $product) }}" style="display:inline"
+                                        onsubmit="return confirm('Deseja excluir este produto?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn--sm btn--danger" type="submit">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-wrapper">
+                {{ $products->links() }}
+            </div>
+        @endif
     </div>
 </div>
 @endsection
