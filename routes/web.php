@@ -1,19 +1,20 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProducerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Producer\DashboardController;
-use App\Http\Controllers\Producer\ProductController;
+use App\Http\Controllers\Producer\ProductController as DashboardProductController;
 use App\Http\Controllers\Producer\SetupController;
 use App\Http\Controllers\Producer\ProfileController as ProducerProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
-Route::get('/produtores', function () {
-    return redirect('/');
-})->name('producers.index');
+// Catálogo público
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/produtos/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/produtores', [ProducerController::class, 'index'])->name('producers.index');
+Route::get('/produtores/{producer}', [ProducerController::class, 'show'])->name('producers.show');
 
 // Setup de perfil — auth + verified, sem middleware de perfil (evita loop)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -27,12 +28,12 @@ Route::middleware(['auth', 'verified', 'producer.profile'])->group(function () {
     Route::get('/dashboard/profile', [ProducerProfileController::class, 'edit'])->name('producer.profile.edit');
     Route::patch('/dashboard/profile', [ProducerProfileController::class, 'update'])->name('producer.profile.update');
 
-    Route::get('/dashboard/produtos/criar', [ProductController::class, 'create'])->name('producer.products.create');
-    Route::post('/dashboard/produtos', [ProductController::class, 'store'])->name('producer.products.store');
-    Route::get('/dashboard/produtos/{product}/editar', [ProductController::class, 'edit'])->name('producer.products.edit');
-    Route::put('/dashboard/produtos/{product}', [ProductController::class, 'update'])->name('producer.products.update');
-    Route::delete('/dashboard/produtos/{product}', [ProductController::class, 'destroy'])->name('producer.products.destroy');
-    Route::patch('/dashboard/produtos/{product}/disponibilidade', [ProductController::class, 'toggleAvailability'])->name('producer.products.toggle');
+    Route::get('/dashboard/produtos/criar', [DashboardProductController::class, 'create'])->name('producer.products.create');
+    Route::post('/dashboard/produtos', [DashboardProductController::class, 'store'])->name('producer.products.store');
+    Route::get('/dashboard/produtos/{product}/editar', [DashboardProductController::class, 'edit'])->name('producer.products.edit');
+    Route::put('/dashboard/produtos/{product}', [DashboardProductController::class, 'update'])->name('producer.products.update');
+    Route::delete('/dashboard/produtos/{product}', [DashboardProductController::class, 'destroy'])->name('producer.products.destroy');
+    Route::patch('/dashboard/produtos/{product}/disponibilidade', [DashboardProductController::class, 'toggleAvailability'])->name('producer.products.toggle');
 });
 
 // Perfil do usuário (Breeze)
