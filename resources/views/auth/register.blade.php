@@ -7,16 +7,16 @@
 
         <div class="auth-form__group">
             <div class="role-selector">
-                <label class="role-selector__option {{ old('role', 'producer') === 'producer' ? 'role-selector__option--active' : '' }}">
+                <label class="role-selector__option">
                     <input type="radio" name="role" value="producer"
                         {{ old('role', 'producer') === 'producer' ? 'checked' : '' }}>
                     <span class="role-selector__icon">🌱</span>
                     <span class="role-selector__title">Quero vender</span>
                     <span class="role-selector__desc">Cadastre sua fazenda e produtos</span>
                 </label>
-                <label class="role-selector__option {{ old('role', 'producer') === 'buyer' ? 'role-selector__option--active' : '' }}">
+                <label class="role-selector__option">
                     <input type="radio" name="role" value="buyer"
-                        {{ old('role', 'producer') === 'buyer' ? 'checked' : '' }}>
+                        {{ old('role') === 'buyer' ? 'checked' : '' }}>
                     <span class="role-selector__icon">🛒</span>
                     <span class="role-selector__title">Quero comprar</span>
                     <span class="role-selector__desc">Favoritos e avaliações</span>
