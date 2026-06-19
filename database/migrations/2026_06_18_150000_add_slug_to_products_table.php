@@ -13,9 +13,6 @@ return new class extends Migration
             $table->string('slug')->nullable()->unique()->after('name');
         });
 
-        // Backfill: gera slug para os produtos já existentes.
-        // O hook `saving` do Model cuida da geração e da unicidade.
-        Product::whereNull('slug')->get()->each->save();
     }
 
     public function down(): void
