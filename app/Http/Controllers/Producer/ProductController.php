@@ -94,4 +94,24 @@ class ProductController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function toggleFeatured(Product $product)
+    {
+        $this->authorize('update', $product);
+
+        $producer = auth()->user()->producer;
+
+        // Regra de negócio: no máximo 3 produtos em destaque por produtor.
+        if (! $product->is_featured) {
+            $featuredCount = $producer->products()->where('is_featured', true)->count();
+            if ($featuredCount >= 3) {
+                return redirect()->route('dashboard')
+                    ->with('error', 'Você já tem 3 produtos em destaque. Remova um antes de adicionar outro.');
+            }
+        }
+
+        $product->update(['is_featured' => ! $product->is_featured]);
+
+        return redirect()->route('dashboard');
+    }
 }

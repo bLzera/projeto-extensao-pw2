@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 // Os ->name() no final das rotas definem um alias pra rota
 // Esse alias pode ser referido em qualquer outro lugar do app
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/produtos/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/produtos/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/produtores', [ProducerController::class, 'index'])->name('producers.index');
-Route::get('/produtores/{producer}', [ProducerController::class, 'show'])->name('producers.show');
+Route::get('/produtores/{producer:slug}', [ProducerController::class, 'show'])->name('producers.show');
 
 // Setup de perfil — auth + verified, sem middleware de perfil (evita loop)
 // Middlewares 'auth' e 'verified' padrão do Breeze
@@ -40,6 +40,7 @@ Route::middleware(['auth', 'verified', 'producer.profile'])->group(function () {
     Route::put('/dashboard/produtos/{product}', [DashboardProductController::class, 'update'])->name('producer.products.update');
     Route::delete('/dashboard/produtos/{product}', [DashboardProductController::class, 'destroy'])->name('producer.products.destroy');
     Route::patch('/dashboard/produtos/{product}/disponibilidade', [DashboardProductController::class, 'toggleAvailability'])->name('producer.products.toggle');
+    Route::patch('/dashboard/produtos/{product}/destaque', [DashboardProductController::class, 'toggleFeatured'])->name('producer.products.toggleFeatured');
 });
 
 // Perfil do usuário (Breeze)

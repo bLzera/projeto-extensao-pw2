@@ -145,6 +145,12 @@
         color: $color-success;
         border: 1px solid #6ee7b7;
     }
+
+    &--error {
+        background: #fdecea;
+        color: $color-danger;
+        border: 1px solid #f5c6c0;
+    }
 }
 
 // Products table
@@ -247,6 +253,15 @@
 
         &:hover {
             background: color.adjust($color-danger, $lightness: -8%);
+        }
+    }
+
+    &--featured {
+        background: $color-secondary;
+        color: white;
+
+        &:hover {
+            background: color.adjust($color-secondary, $lightness: -8%);
         }
     }
 }

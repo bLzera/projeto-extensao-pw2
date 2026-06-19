@@ -12,6 +12,10 @@
         <div class="alert alert--success">{{ session('success') }}</div>
     @endif
 
+    @if (session('error'))
+        <div class="alert alert--error">{{ session('error') }}</div>
+    @endif
+
     <div class="dashboard-stats">
         <div class="stat-card">
             <div class="stat-card__number">{{ $totalProducts }}</div>
@@ -48,6 +52,7 @@
                             <th>Preço</th>
                             <th>Unidade</th>
                             <th>Status</th>
+                            <th>Destaque</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -71,6 +76,21 @@
                                     <span class="badge {{ $product->is_available ? 'badge--success' : 'badge--muted' }}">
                                         {{ $product->is_available ? 'Disponível' : 'Indisponível' }}
                                     </span>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{{ route('producer.products.toggleFeatured', $product) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        @if ($product->is_featured)
+                                            <button class="btn btn--sm btn--featured" type="submit" title="Remover destaque">
+                                                ⭐ Em destaque
+                                            </button>
+                                        @else
+                                            <button class="btn btn--sm btn--outline" type="submit" title="Destacar produto">
+                                                Destacar
+                                            </button>
+                                        @endif
+                                    </form>
                                 </td>
                                 <td>
                                     <div class="product-actions">

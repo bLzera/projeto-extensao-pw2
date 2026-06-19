@@ -46,12 +46,12 @@ $cities = Producer::whereHas('products', fn($q) => $q->where('is_available', tru
 - Incluir a cidade selecionada quando presente
 
 **Critérios de aceitação:**
-- [ ] Pills de cidade exibidas abaixo das categorias (só quando houver ≥ 2 cidades)
-- [ ] `?cidade=` filtra produtos pelo campo `city` do produtor
-- [ ] Filtros de cidade, categoria e busca funcionam combinados
-- [ ] `withQueryString()` preserva `?cidade=` nos links de paginação
-- [ ] Cidade selecionada refletida no bloco de "Filtrando por:"
-- [ ] Link "Limpar filtros" remove os três parâmetros
+- [x] Pills de cidade exibidas abaixo das categorias (só quando houver ≥ 2 cidades)
+- [x] `?cidade=` filtra produtos pelo campo `city` do produtor
+- [x] Filtros de cidade, categoria e busca funcionam combinados
+- [x] `withQueryString()` preserva `?cidade=` nos links de paginação
+- [x] Cidade selecionada refletida no bloco de "Filtrando por:"
+- [x] Link "Limpar filtros" remove os três parâmetros
 
 **Esforço:** P
 **Dependências:** nenhuma
@@ -90,11 +90,11 @@ filtros ativos e é apresentada como um `<select>` no topo direito do catálogo.
 ou em um form próprio que preserva os demais query params como `<input type="hidden">`.
 
 **Critérios de aceitação:**
-- [ ] Dropdown de ordenação visível no catálogo (acima ou no mesmo nível da busca)
-- [ ] Quatro opções de ordenação funcionando corretamente
-- [ ] Ordenação selecionada refletida no `<select>` ao navegar
-- [ ] `withQueryString()` preserva `?ordem=` na paginação
-- [ ] Combinável com `?categoria=`, `?busca=` e `?cidade=`
+- [x] Dropdown de ordenação visível no catálogo (acima ou no mesmo nível da busca)
+- [x] Quatro opções de ordenação funcionando corretamente
+- [x] Ordenação selecionada refletida no `<select>` ao navegar
+- [x] `withQueryString()` preserva `?ordem=` na paginação
+- [x] Combinável com `?categoria=`, `?busca=` e `?cidade=`
 
 **Esforço:** P
 **Dependências:** CAT-EX-01
@@ -136,11 +136,11 @@ public function index(Request $request)
 - Empty state com ícone 🏡 quando busca não retorna resultados
 
 **Critérios de aceitação:**
-- [ ] Campo de busca na página de produtores
-- [ ] Busca por nome do negócio e por cidade (OR)
-- [ ] Contagem de resultados exibida
-- [ ] Paginação preserva `?busca=`
-- [ ] Empty state contextual quando busca retorna vazio
+- [x] Campo de busca na página de produtores
+- [x] Busca por nome do negócio e por cidade (OR)
+- [x] Contagem de resultados exibida
+- [x] Paginação preserva `?busca=`
+- [x] Empty state contextual quando busca retorna vazio
 
 **Esforço:** P
 **Dependências:** nenhuma
@@ -205,14 +205,14 @@ Criar um `artisan` command ou incluir no seeder/migration um loop que gera slug
 para registros sem slug (para o DemoSeeder existente).
 
 **Critérios de aceitação:**
-- [ ] Migrations criadas e executando sem erro
-- [ ] Slug gerado automaticamente ao criar produto ou produtor
-- [ ] Slug gerado automaticamente ao criar produtor no setup
-- [ ] Slugs únicos: sufixo `-2`, `-3`, etc. quando há colisão
-- [ ] Rotas usando `{product:slug}` e `{producer:slug}`
-- [ ] Links em todo o sistema usando `route('products.show', $product)` (Eloquent route model binding resolve automaticamente)
-- [ ] Registros do DemoSeeder têm slugs válidos
-- [ ] IDs antigos (`/produtos/3`) retornam 404 (comportamento esperado do route binding)
+- [x] Migrations criadas e executando sem erro
+- [x] Slug gerado automaticamente ao criar produto ou produtor
+- [x] Slug gerado automaticamente ao criar produtor no setup
+- [x] Slugs únicos: sufixo `-2`, `-3`, etc. quando há colisão
+- [x] Rotas usando `{product:slug}` e `{producer:slug}`
+- [x] Links em todo o sistema usando `route('products.show', $product)` (Eloquent route model binding resolve automaticamente)
+- [x] Registros do DemoSeeder têm slugs válidos
+- [x] IDs antigos (`/produtos/3`) retornam 404 (comportamento esperado do route binding)
 
 **Esforço:** M
 **Dependências:** nenhuma
@@ -265,12 +265,12 @@ public function whatsappUrl(?string $productName = null): ?string
 Deve ser um `<a>` com `target="_blank" rel="noopener"`.
 
 **Critérios de aceitação:**
-- [ ] Método `whatsappUrl()` no Model `Producer`
-- [ ] Botão exibido apenas quando `producer->whatsapp` está preenchido
-- [ ] Link abre WhatsApp Web/App com mensagem pré-preenchida
-- [ ] Mensagem contextual ao produto na página do produto
-- [ ] Número formatado sem espaços/traços/parênteses
-- [ ] `target="_blank" rel="noopener"` no link
+- [x] Método `whatsappUrl()` no Model `Producer`
+- [x] Botão exibido apenas quando `producer->whatsapp` está preenchido
+- [x] Link abre WhatsApp Web/App com mensagem pré-preenchida
+- [x] Mensagem contextual ao produto na página do produto
+- [x] Número formatado sem espaços/traços/parênteses
+- [x] `target="_blank" rel="noopener"` no link
 
 **Esforço:** P
 **Dependências:** nenhuma
@@ -330,13 +330,13 @@ public function toggleFeatured(Product $product)
 - Flash de erro quando limite de 3 é atingido
 
 **Critérios de aceitação:**
-- [ ] Migration com `is_featured` executando sem erro
-- [ ] Produtor pode ativar destaque de até 3 produtos
-- [ ] Tentativa de adicionar 4º destaque retorna mensagem de erro clara
-- [ ] Produtos em destaque aparecem primeiro no perfil público
-- [ ] Badge de destaque visível no perfil público
-- [ ] Coluna e botão de destaque presentes na tabela do dashboard
-- [ ] `ProductPolicy` cobre o novo método `toggleFeatured`
+- [x] Migration com `is_featured` executando sem erro
+- [x] Produtor pode ativar destaque de até 3 produtos
+- [x] Tentativa de adicionar 4º destaque retorna mensagem de erro clara
+- [x] Produtos em destaque aparecem primeiro no perfil público
+- [x] Badge de destaque visível no perfil público
+- [x] Coluna e botão de destaque presentes na tabela do dashboard
+- [x] `ProductPolicy` cobre o novo método `toggleFeatured`
 
 **Esforço:** P
 **Dependências:** nenhuma

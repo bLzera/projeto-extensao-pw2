@@ -9,6 +9,12 @@
     color: $color-text;
 }
 
+.results-count {
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+    margin-bottom: $space-5;
+}
+
 .back-link {
     display: inline-block;
     color: $color-text-muted;
@@ -18,6 +24,58 @@
     &:hover {
         color: $color-primary;
         text-decoration: none;
+    }
+}
+
+// Catalog toolbar (search + sort lado a lado)
+.catalog-toolbar {
+    display: flex;
+    align-items: flex-end;
+    gap: $space-4;
+    margin: $space-6 0 $space-5;
+
+    @include respond-to($bp-md) {
+        flex-wrap: wrap;
+        align-items: stretch;
+    }
+
+    .search-bar {
+        flex: 1;
+        margin: 0;
+    }
+}
+
+// Sort form
+.sort-form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+    flex-shrink: 0;
+
+    @include respond-to($bp-md) {
+        flex: 1;
+    }
+
+    &__label {
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+    }
+
+    &__select {
+        padding: $space-3 $space-4;
+        border: 1px solid $color-border;
+        border-radius: $border-radius;
+        font-size: $font-size-base;
+        font-family: $font-family-base;
+        color: $color-text;
+        background: white;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+            border-color: $color-primary;
+            box-shadow: 0 0 0 3px rgba($color-primary, .15);
+        }
     }
 }
 
@@ -200,6 +258,20 @@
         font-weight: 700;
         color: $color-text;
         letter-spacing: 0.04em;
+    }
+
+    &__featured {
+        position: absolute;
+        top: $space-2;
+        right: $space-2;
+        background: $color-secondary;
+        color: white;
+        border-radius: 99px;
+        padding: 2px $space-3;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .18);
     }
 
     &__body {

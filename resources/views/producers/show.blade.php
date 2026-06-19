@@ -38,18 +38,16 @@
                     </p>
                 @endif
 
-                @if ($producer->whatsapp)
-                    <p class="contact-block__item">
-                        📱 <a href="https://wa.me/55{{ preg_replace('/\D/', '', $producer->whatsapp) }}" target="_blank" rel="noopener">
-                            WhatsApp: {{ $producer->whatsapp }}
-                        </a>
-                    </p>
-                @endif
-
                 @if ($producer->contact_email)
                     <p class="contact-block__item">
                         ✉️ <a href="mailto:{{ $producer->contact_email }}">{{ $producer->contact_email }}</a>
                     </p>
+                @endif
+
+                @if ($producer->whatsappUrl())
+                    <a class="whatsapp-btn" href="{{ $producer->whatsappUrl() }}" target="_blank" rel="noopener">
+                        💬 Falar no WhatsApp
+                    </a>
                 @endif
             </div>
         </div>

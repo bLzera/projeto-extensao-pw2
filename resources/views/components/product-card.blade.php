@@ -10,6 +10,9 @@
             </div>
         @endif
         <span class="product-card__badge">{{ $product->category->name }}</span>
+        @if ($product->is_featured)
+            <span class="product-card__featured">⭐ Destaque</span>
+        @endif
     </div>
 
     <div class="product-card__body">
