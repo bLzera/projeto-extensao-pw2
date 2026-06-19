@@ -198,6 +198,7 @@
 .product-card {
     display: flex;
     flex-direction: column;
+    position: relative;
     background: $color-surface;
     border: 1px solid $color-border;
     border-radius: $border-radius-lg;
@@ -309,6 +310,51 @@
         font-size: $font-size-sm;
         font-weight: 400;
         color: $color-text-muted;
+    }
+}
+
+.product-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+
+    &:hover {
+        text-decoration: none;
+        color: inherit;
+    }
+}
+
+.product-card__heart {
+    position: absolute;
+    top: $space-2;
+    left: $space-2;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(4px);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background $transition-base, transform $transition-spring;
+    color: $color-text-muted;
+
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    &:hover {
+        background: #fff;
+        transform: scale(1.15);
+    }
+
+    &--active {
+        color: $color-danger;
     }
 }
 
@@ -525,5 +571,33 @@
     nav {
         display: flex;
         justify-content: center;
+    }
+}
+
+.star-display {
+    display: inline-flex;
+    gap: 1px;
+
+    &__star {
+        color: $color-border;
+        font-size: 0.9rem;
+
+        &--filled {
+            color: $color-secondary;
+        }
+    }
+}
+
+.producer-card__rating {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    margin-top: $space-2;
+    justify-content: center;
+
+    &-value {
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+        font-weight: 500;
     }
 }

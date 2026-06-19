@@ -10,6 +10,10 @@ class SetupController extends Controller
 {
     public function create()
     {
+        if (auth()->user()->isBuyer()) {
+            return redirect()->route('home');
+        }
+
         if (auth()->user()->producer) {
             return redirect()->route('dashboard');
         }

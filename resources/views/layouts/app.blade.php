@@ -58,7 +58,11 @@
                              x-transition:leave-start="hud-end"
                              x-transition:leave-end="hud-start"
                              @click="open = false">
-                            <a class="dropdown-item" href="{{ route('dashboard') }}">Minha Feira</a>
+                            @if(auth()->user()->isProducer())
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">Minha Feira</a>
+                            @else
+                                <a class="dropdown-item" href="{{ route('buyer.favorites') }}">Meus Favoritos</a>
+                            @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button class="dropdown-item" type="submit">Sair</button>

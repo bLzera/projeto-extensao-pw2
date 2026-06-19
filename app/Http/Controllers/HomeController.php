@@ -6,18 +6,14 @@ use App\Models\Category;
 use App\Models\Producer;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Exibe o catálogo público com filtragem por categoria, cidade,
-     * busca por nome e ordenação configurável.
-     */
     public function index(Request $request)
     {
         $categories = Category::orderBy('name')->get();
 
-        // Cidades derivadas dos produtores que têm ao menos um produto disponível.
         $cities = Producer::whereHas('products', fn($q) => $q->where('is_available', true))
             ->distinct()
             ->orderBy('city')
@@ -43,7 +39,11 @@ class HomeController extends Controller
                 };
             }, fn($q) => $q->latest())
             ->paginate(12)
-            ->withQueryString(); // mantém ?categoria=, ?cidade=, ?busca= e ?ordem= na paginação
+            ->withQueryString();
+
+        $favoritedIds = Auth::check() && Auth::user()->isBuyer()
+            ? Auth::user()->favorites()->pluck('product_id')
+            : collect();
 
         return view('home.index', [
             'products'        => $products,
@@ -53,6 +53,7 @@ class HomeController extends Controller
             'currentCity'     => $request->cidade,
             'busca'           => $request->busca,
             'ordem'           => $request->ordem ?? 'recentes',
+            'favoritedIds'    => $favoritedIds,
         ]);
     }
 }

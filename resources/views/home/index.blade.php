@@ -126,7 +126,7 @@
     @else
         <div class="products-grid">
             @foreach ($products as $product)
-                <x-product-card :product="$product" />
+                <x-product-card :product="$product" :favorited="$favoritedIds->contains($product->id)" />
             @endforeach
         </div>
 

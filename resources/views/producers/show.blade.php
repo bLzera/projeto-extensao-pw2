@@ -26,6 +26,19 @@
                 <p class="producer-profile__city">{{ $producer->city }}</p>
             @endif
 
+            @if($averageRating !== null)
+                <div class="producer-profile__rating">
+                    <span class="star-display">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span class="star-display__star {{ $i <= round($averageRating) ? 'star-display__star--filled' : '' }}">★</span>
+                        @endfor
+                    </span>
+                    <span class="producer-profile__rating-text">
+                        {{ number_format($averageRating, 1) }} ({{ $ratingsCount }} {{ $ratingsCount === 1 ? 'avaliação' : 'avaliações' }})
+                    </span>
+                </div>
+            @endif
+
             @if ($producer->description)
                 <p class="producer-profile__description">{{ $producer->description }}</p>
             @endif
@@ -64,7 +77,7 @@
         @else
             <div class="products-grid">
                 @foreach ($products as $product)
-                    <x-product-card :product="$product" />
+                    <x-product-card :product="$product" :favorited="$favoritedIds->contains($product->id)" />
                 @endforeach
             </div>
 
@@ -73,6 +86,54 @@
             </div>
         @endif
     </section>
+
+    @auth
+        @if(auth()->user()->isBuyer())
+            <section class="rating-section">
+                <h2 class="rating-section__title">
+                    {{ $existingRating ? 'Sua avaliação' : 'Avaliar este produtor' }}
+                </h2>
+
+                @if (session('success'))
+                    <div class="alert alert--success">{{ session('success') }}</div>
+                @endif
+
+                <form method="POST" action="{{ route('ratings.upsert', $producer) }}" class="rating-form"
+                      x-data="{ stars: {{ $existingRating?->stars ?? 0 }} }">
+                    @csrf
+
+                    <div class="rating-form__stars">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <label class="rating-form__star-label">
+                                <input type="radio" name="stars" value="{{ $i }}"
+                                       x-model.number="stars"
+                                       style="position:absolute;opacity:0;pointer-events:none">
+                                <span class="rating-form__star" :class="{ 'rating-form__star--filled': stars >= {{ $i }} }">★</span>
+                            </label>
+                        @endfor
+                        @error('stars')
+                            <span class="auth-form__error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="auth-form__group">
+                        <label class="auth-form__label" for="comment">Comentário (opcional)</label>
+                        <textarea class="auth-form__input" id="comment" name="comment"
+                                  rows="3" style="resize:vertical">{{ old('comment', $existingRating?->comment) }}</textarea>
+                        @error('comment')
+                            <span class="auth-form__error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="auth-form__footer">
+                        <button class="btn btn--primary" type="submit">
+                            {{ $existingRating ? 'Atualizar avaliação' : 'Enviar avaliação' }}
+                        </button>
+                    </div>
+                </form>
+            </section>
+        @endif
+    @endauth
 
 </div>
 @endsection
