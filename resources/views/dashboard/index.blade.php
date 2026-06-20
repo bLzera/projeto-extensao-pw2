@@ -62,7 +62,7 @@
                                 <td>
                                     @if ($product->photo)
                                         <img class="product-thumb"
-                                            src="{{ Storage::url($product->photo) }}"
+                                            src="{{ $product->photo_url }}"
                                             alt="{{ $product->name }}">
                                     @else
                                         <div class="product-thumb product-thumb--empty"></div>

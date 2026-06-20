@@ -4,7 +4,7 @@
     <a href="{{ route('products.show', $product) }}" class="product-card__link">
         <div class="product-card__photo">
             @if ($product->photo)
-                <img src="{{ Storage::url($product->photo) }}" alt="{{ $product->name }}">
+                <img src="{{ $product->photo_url }}" alt="{{ $product->name }}">
             @else
                 <div class="product-card__photo-placeholder">
                     <span>Sem foto</span>

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -69,5 +71,22 @@ class Product extends Model
     public function favoritedBy(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+    }
+
+    /**
+     * URL da foto: aceita tanto uploads no storage quanto links externos
+     * (ex.: imagens do Unsplash usadas pelo seed de demonstração).
+     */
+    protected function photoUrl(): Attribute
+    {
+        return Attribute::get(function () {
+            if (empty($this->photo)) {
+                return null;
+            }
+
+            return Str::startsWith($this->photo, ['http://', 'https://'])
+                ? $this->photo
+                : Storage::url($this->photo);
+        });
     }
 }

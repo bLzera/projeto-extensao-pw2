@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Hash;
 
 class DemoSeeder extends Seeder
 {
+    /**
+     * Monta a URL de uma foto do Unsplash dimensionada para o catálogo.
+     */
+    private function unsplash(string $id): string
+    {
+        return "https://images.unsplash.com/photo-{$id}?auto=format&fit=crop&w=800&q=80";
+    }
+
     public function run(): void
     {
         $producers = [
@@ -30,10 +38,10 @@ class DemoSeeder extends Seeder
                     'contact_email' => 'ana@feirafeira.test',
                 ],
                 'products' => [
-                    ['name' => 'Alface Crespa', 'category' => 'Verduras', 'price' => 3.50, 'unit' => 'unidade', 'description' => 'Alface fresca, colhida no dia.'],
-                    ['name' => 'Tomate Cereja', 'category' => 'Legumes', 'price' => 8.00, 'unit' => 'kg', 'description' => 'Tomate cereja orgânico, sabor adocicado.'],
-                    ['name' => 'Banana Prata', 'category' => 'Frutas', 'price' => 6.00, 'unit' => 'kg', 'description' => 'Banana prata madura, diretamente do pé.'],
-                    ['name' => 'Abóbora Cabotiá', 'category' => 'Legumes', 'price' => 5.50, 'unit' => 'kg', 'description' => 'Abóbora japonesa doce e cremosa.'],
+                    ['name' => 'Alface Crespa', 'category' => 'Verduras', 'price' => 3.50, 'unit' => 'unidade', 'description' => 'Alface fresca, colhida no dia.', 'photo' => $this->unsplash('1622206151226-18ca2c9ab4a1')],
+                    ['name' => 'Tomate Cereja', 'category' => 'Legumes', 'price' => 8.00, 'unit' => 'kg', 'description' => 'Tomate cereja orgânico, sabor adocicado.', 'photo' => $this->unsplash('1561136594-7f68413baa99')],
+                    ['name' => 'Banana Prata', 'category' => 'Frutas', 'price' => 6.00, 'unit' => 'kg', 'description' => 'Banana prata madura, diretamente do pé.', 'photo' => $this->unsplash('1571771894821-ce9b6c11b08e')],
+                    ['name' => 'Abóbora Cabotiá', 'category' => 'Legumes', 'price' => 5.50, 'unit' => 'kg', 'description' => 'Abóbora japonesa doce e cremosa.', 'photo' => $this->unsplash('1506917728037-b6af01a7d403')],
                 ],
             ],
             [
@@ -52,9 +60,9 @@ class DemoSeeder extends Seeder
                     'contact_email' => 'carlos@feirafeira.test',
                 ],
                 'products' => [
-                    ['name' => 'Ovos Caipiras', 'category' => 'Ovos', 'price' => 18.00, 'unit' => 'dúzia', 'description' => 'Ovos de galinhas criadas soltas, com gema amarelo intenso.'],
-                    ['name' => 'Queijo Colonial', 'category' => 'Laticínios', 'price' => 45.00, 'unit' => 'kg', 'description' => 'Queijo meia-cura feito com leite cru da propriedade.'],
-                    ['name' => 'Iogurte Natural', 'category' => 'Laticínios', 'price' => 12.00, 'unit' => 'litro', 'description' => 'Iogurte integral sem adição de açúcar.'],
+                    ['name' => 'Ovos Caipiras', 'category' => 'Ovos', 'price' => 18.00, 'unit' => 'dúzia', 'description' => 'Ovos de galinhas criadas soltas, com gema amarelo intenso.', 'photo' => $this->unsplash('1582722872445-44dc5f7e3c8f')],
+                    ['name' => 'Queijo Colonial', 'category' => 'Laticínios', 'price' => 45.00, 'unit' => 'kg', 'description' => 'Queijo meia-cura feito com leite cru da propriedade.', 'photo' => $this->unsplash('1486297678162-eb2a19b0a32d')],
+                    ['name' => 'Iogurte Natural', 'category' => 'Laticínios', 'price' => 12.00, 'unit' => 'litro', 'description' => 'Iogurte integral sem adição de açúcar.', 'photo' => $this->unsplash('1488477181946-6428a0291777')],
                 ],
             ],
             [
@@ -73,10 +81,10 @@ class DemoSeeder extends Seeder
                     'contact_email' => 'joana@feirafeira.test',
                 ],
                 'products' => [
-                    ['name' => 'Mel Silvestre', 'category' => 'Mel e derivados', 'price' => 35.00, 'unit' => 'kg', 'description' => 'Mel puro de abelhas nativas, colhido sem aquecimento.'],
-                    ['name' => 'Própolis Verde', 'category' => 'Mel e derivados', 'price' => 28.00, 'unit' => 'unidade', 'description' => 'Extrato alcoólico de própolis 11% — 30 mL.'],
-                    ['name' => 'Geleia de Maracujá', 'category' => 'Conservas', 'price' => 14.00, 'unit' => 'unidade', 'description' => 'Geleia artesanal de maracujá com pedaços, 250 g.'],
-                    ['name' => 'Arroz Agulhinha', 'category' => 'Grãos e cereais', 'price' => 9.00, 'unit' => 'kg', 'description' => 'Arroz branco tipo 1, produzido localmente.'],
+                    ['name' => 'Mel Silvestre', 'category' => 'Mel e derivados', 'price' => 35.00, 'unit' => 'kg', 'description' => 'Mel puro de abelhas nativas, colhido sem aquecimento.', 'photo' => $this->unsplash('1558642452-9d2a7deb7f62')],
+                    ['name' => 'Própolis Verde', 'category' => 'Mel e derivados', 'price' => 28.00, 'unit' => 'unidade', 'description' => 'Extrato alcoólico de própolis 11% — 30 mL.', 'photo' => $this->unsplash('1474979266404-7eaacbcd87c5')],
+                    ['name' => 'Geleia de Maracujá', 'category' => 'Conservas', 'price' => 14.00, 'unit' => 'unidade', 'description' => 'Geleia artesanal de maracujá com pedaços, 250 g.', 'photo' => $this->unsplash('1472476443507-c7a5948772fc')],
+                    ['name' => 'Arroz Agulhinha', 'category' => 'Grãos e cereais', 'price' => 9.00, 'unit' => 'kg', 'description' => 'Arroz branco tipo 1, produzido localmente.', 'photo' => $this->unsplash('1586201375761-83865001e31c')],
                 ],
             ],
         ];
@@ -94,6 +102,7 @@ class DemoSeeder extends Seeder
                     'description'  => $productData['description'],
                     'price'        => $productData['price'],
                     'unit'         => $productData['unit'],
+                    'photo'        => $productData['photo'] ?? null,
                     'is_available' => true,
                 ]);
             }

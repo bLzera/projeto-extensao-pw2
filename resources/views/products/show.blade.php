@@ -10,7 +10,7 @@
     <div class="product-detail">
         <div class="product-detail__photo">
             @if ($product->photo)
-                <img src="{{ Storage::url($product->photo) }}" alt="{{ $product->name }}">
+                <img src="{{ $product->photo_url }}" alt="{{ $product->name }}">
             @else
                 <div class="product-detail__photo-placeholder">
                     <span>Sem foto</span>
