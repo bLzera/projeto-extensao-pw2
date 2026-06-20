@@ -123,5 +123,76 @@
             </div>
         @endif
     </div>
+
+    <div class="ratings-panel">
+        <div class="ratings-panel__header">
+            <h2>Avaliações recebidas</h2>
+            <div class="ratings-panel__stats">
+                <span><strong>{{ $activeRatingsCount }}</strong> {{ $activeRatingsCount === 1 ? 'avaliação' : 'avaliações' }}</span>
+                @if ($averageRating !== null)
+                    <span>Média <strong>{{ number_format($averageRating, 1) }}</strong></span>
+                @endif
+                <span><strong>{{ $hiddenRatingsCount }}</strong> {{ $hiddenRatingsCount === 1 ? 'oculta' : 'ocultas' }}</span>
+            </div>
+        </div>
+
+        @if ($ratings->isEmpty())
+            <div class="empty-state">
+                <span class="empty-state__icon">⭐</span>
+                <p class="empty-state__title">Você ainda não recebeu avaliações</p>
+                <p class="empty-state__desc">Quando compradores avaliarem sua loja, elas aparecem aqui.</p>
+            </div>
+        @else
+            <div class="table-wrapper">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Comprador</th>
+                            <th>Nota</th>
+                            <th>Comentário</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($ratings as $rating)
+                            <tr>
+                                <td>{{ $rating->buyer->name ?? 'Comprador' }}</td>
+                                <td>
+                                    <span class="star-display">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <span class="star-display__star {{ $i <= $rating->stars ? 'star-display__star--filled' : '' }}">★</span>
+                                        @endfor
+                                    </span>
+                                    @if ($rating->edited_at)
+                                        <span class="rating-card__edited">editada</span>
+                                    @endif
+                                </td>
+                                <td class="ratings-panel__comment">{{ $rating->comment ?: '—' }}</td>
+                                <td>
+                                    <span class="badge {{ $rating->hidden ? 'badge--muted' : 'badge--success' }}">
+                                        {{ $rating->hidden ? 'Oculta' : 'Visível' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <form method="POST" action="{{ route('dashboard.ratings.toggle', $rating) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button class="btn btn--sm btn--outline" type="submit">
+                                            {{ $rating->hidden ? 'Exibir' : 'Ocultar' }}
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-wrapper">
+                {{ $ratings->links() }}
+            </div>
+        @endif
+    </div>
 </div>
 @endsection

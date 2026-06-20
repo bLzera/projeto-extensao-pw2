@@ -9,6 +9,7 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\Buyer\FavoritesPageController;
 
 use App\Http\Controllers\Producer\DashboardController;
+use App\Http\Controllers\Producer\DashboardRatingController;
 use App\Http\Controllers\Producer\ProductController as DashboardProductController;
 use App\Http\Controllers\Producer\SetupController;
 use App\Http\Controllers\Producer\ProfileController as ProducerProfileController;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produtos/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/produtores', [ProducerController::class, 'index'])->name('producers.index');
+Route::get('/produtores/{producer:slug}/avaliacoes', [ProducerController::class, 'ratings'])->name('producers.ratings.index');
 Route::get('/produtores/{producer:slug}', [ProducerController::class, 'show'])->name('producers.show');
 
 // Setup de perfil — auth + verified, sem middleware de perfil (evita loop)
@@ -44,6 +46,8 @@ Route::middleware(['auth', 'verified', 'producer.profile'])->group(function () {
     Route::delete('/dashboard/produtos/{product}', [DashboardProductController::class, 'destroy'])->name('producer.products.destroy');
     Route::patch('/dashboard/produtos/{product}/disponibilidade', [DashboardProductController::class, 'toggleAvailability'])->name('producer.products.toggle');
     Route::patch('/dashboard/produtos/{product}/destaque', [DashboardProductController::class, 'toggleFeatured'])->name('producer.products.toggleFeatured');
+
+    Route::patch('/dashboard/avaliacoes/{rating}/visibilidade', [DashboardRatingController::class, 'toggle'])->name('dashboard.ratings.toggle');
 });
 
 // Perfil do usuário (Breeze)
@@ -58,6 +62,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/favoritos/{product}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
     Route::get('/meus-favoritos', [FavoritesPageController::class, 'index'])->name('buyer.favorites');
     Route::post('/produtores/{producer}/avaliar', [RatingController::class, 'upsert'])->name('ratings.upsert');
+    Route::delete('/produtores/{producer}/avaliar', [RatingController::class, 'destroy'])->name('ratings.destroy');
 });
 
 require __DIR__.'/auth.php';

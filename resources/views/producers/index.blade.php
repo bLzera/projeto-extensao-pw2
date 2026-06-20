@@ -42,7 +42,7 @@
     @else
         <div class="producers-grid">
             @foreach ($producers as $producer)
-                <x-producer-card :producer="$producer" :averageRating="$producer->ratings_avg_stars" />
+                <x-producer-card :producer="$producer" :averageRating="$producer->active_ratings_avg_stars" />
             @endforeach
         </div>
 

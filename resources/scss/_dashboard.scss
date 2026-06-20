@@ -167,6 +167,40 @@
     color: $color-text-muted;
 }
 
+.ratings-panel {
+    margin-top: $space-7;
+
+    &__header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: $space-4;
+        flex-wrap: wrap;
+        margin-bottom: $space-4;
+
+        h2 {
+            font-size: $font-size-lg;
+        }
+    }
+
+    &__stats {
+        display: flex;
+        gap: $space-4;
+        flex-wrap: wrap;
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+
+        strong {
+            color: $color-text;
+        }
+    }
+
+    &__comment {
+        max-width: 320px;
+        color: $color-text-muted;
+    }
+}
+
 .table-wrapper {
     overflow-x: auto;
 }

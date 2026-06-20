@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Rating extends Model
 {
-    protected $fillable = ['buyer_id', 'producer_id', 'stars', 'comment'];
+    protected $fillable = ['buyer_id', 'producer_id', 'stars', 'comment', 'hidden', 'status', 'edited_at'];
 
     protected function casts(): array
     {
-        return ['stars' => 'integer'];
+        return [
+            'stars'     => 'integer',
+            'hidden'    => 'boolean',
+            'edited_at' => 'datetime',
+        ];
     }
 
     public function buyer(): BelongsTo

@@ -304,6 +304,128 @@
     }
 }
 
+.own-rating {
+    max-width: 480px;
+    padding: $space-4;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    background: $color-surface;
+
+    &__head {
+        display: flex;
+        align-items: center;
+        gap: $space-3;
+        margin-bottom: $space-3;
+
+        .star-display__star {
+            font-size: 1.25rem;
+        }
+    }
+
+    &__comment {
+        margin: 0 0 $space-4;
+        color: $color-text;
+    }
+
+    &__actions {
+        display: flex;
+        gap: $space-2;
+        align-items: center;
+    }
+}
+
+.ratings-feed {
+    border-top: 1px solid $color-border;
+    padding-top: $space-6;
+    margin-top: $space-7;
+
+    &__header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: $space-3;
+        flex-wrap: wrap;
+        margin-bottom: $space-5;
+    }
+
+    &__summary {
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+
+        strong {
+            color: $color-text;
+            font-size: $font-size-base;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: $space-3;
+    }
+
+    &__footer {
+        margin-top: $space-5;
+    }
+}
+
+.rating-card {
+    padding: $space-4;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    background: $color-surface;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: $space-3;
+        margin-bottom: $space-2;
+    }
+
+    &__avatar {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: $color-primary;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    &__meta {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        .star-display__star {
+            font-size: 1rem;
+        }
+    }
+
+    &__author {
+        font-weight: 600;
+        font-size: $font-size-sm;
+    }
+
+    &__edited {
+        margin-left: auto;
+        align-self: flex-start;
+        font-size: 0.7rem;
+        color: $color-text-muted;
+        font-style: italic;
+    }
+
+    &__comment {
+        margin: 0;
+        color: $color-text;
+        line-height: 1.5;
+    }
+}
+
 .alert {
     padding: $space-3 $space-4;
     border-radius: $border-radius;

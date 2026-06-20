@@ -79,4 +79,13 @@ class Producer extends Model
     {
         return $this->hasMany(Rating::class);
     }
+
+    /**
+     * Avaliações que contam para a média e estatísticas: exclui soft-deletes.
+     * O campo `hidden` (curadoria do vendedor) não afeta este recorte.
+     */
+    public function activeRatings(): HasMany
+    {
+        return $this->ratings()->where('status', 'active');
+    }
 }
