@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Producer;
 use App\Models\Product;
+use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -89,6 +90,284 @@ class DemoSeeder extends Seeder
             ],
         ];
 
+        $buyers = [
+            [
+                'user' => [
+                    'name' => 'Stefani de Lima',
+                    'email' => 'a@a.a',
+                    'password' => 'stefanisecreta',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    [
+                        'producer_id' => 1,
+                        'stars' => 3,
+                        'comment' => 'Muito bom',
+                    ],
+                    [
+                        'producer_id' => 2,
+                        'stars' => 2,
+                        'comment' => 'Achei péssimo',                     
+                    ],
+                    [
+                        'producer_id' => 3,
+                        'stars' => 4,
+                        'comment' => 'Ótimo',
+                    ],
+                ]
+            ],
+            [
+                'user' => [
+                    'name' => 'Gabriel Tadeu',
+                    'email' => 'b@b.b',
+                    'password' => 'bielsecreto',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    [
+                        'producer_id' => 1,
+                        'stars' => 2,
+                        'comment' => 'Batata podre',
+                    ],
+                    [
+                        'producer_id' => 3,
+                        'stars' => 5,
+                        'comment' => 'Melhor do mundo',
+                    ],
+                ]
+            ],
+            [
+                'user' => [
+                    'name' => 'João pé de Feijão',
+                    'email' => 'c@c.c',
+                    'password' => 'joaosecreto',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    [
+                        'producer_id' => 1,
+                        'stars' => 3,
+                        'comment' => 'Legal',
+                    ],
+                    [
+                        'producer_id' => 2,
+                        'stars' => 1,
+                        'comment' => 'Horivel',                     
+                    ],
+                ]
+            ],
+            [
+                'user' => [
+                    'name' => 'Pedrinho',
+                    'email' => 'd@d.d',
+                    'password' => 'pedrosecreto',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    [
+                        'producer_id' => 1,
+                        'stars' => 3,
+                        'comment' => 'Bem legal',
+                    ],
+                    [
+                        'producer_id' => 3,
+                        'stars' => 5,
+                        'comment' => 'Esse é o melhor produtor do mundo',
+                    ],
+                ]                
+            ],
+            [
+                'user' => [
+                    'name' => 'Renaldiares',
+                    'email' => 'e@e.e',
+                    'password' => 'renaldieressecreto',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    [
+                        'producer_id' => 1,
+                        'stars' => 2,
+                        'comment' => 'Medíocre',
+                    ],
+                    [
+                        'producer_id' => 2,
+                        'stars' => 2,
+                        'comment' => 'Podia ser melhor',                     
+                    ],
+                    [
+                        'producer_id' => 3,
+                        'stars' => 3,
+                        'comment' => 'Bem legal',
+                    ],
+                ]                
+            ],
+            [
+                'user' => [
+                    'name' => 'Samuel Pavanello Freire',
+                    'email' => 'f@f.f',
+                    'password' => 'samuelsecreto',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    [
+                        'producer_id' => 1,
+                        'stars' => 3,
+                        'comment' => 'Uma bosta',
+                    ],
+                    [
+                        'producer_id' => 2,
+                        'stars' => 1,
+                        'comment' => 'Pior do mundo',
+                    ],
+                    [
+                        'producer_id' => 3,
+                        'stars' => 5,
+                        'comment' => 'Magnífico',
+                    ],
+                ]
+            ],
+            [
+                'user' => [
+                    'name' => 'Mariana Bertoldi',
+                    'email' => 'mariana@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 1, 'stars' => 5, 'comment' => 'Verduras sempre fresquinhas, recomendo demais.'],
+                    ['producer_id' => 2, 'stars' => 4, 'comment' => 'Queijo colonial maravilhoso, voltarei a comprar.'],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Otávio Hülse',
+                    'email' => 'otavio@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 3, 'stars' => 5, 'comment' => 'Mel puro de verdade, dá pra sentir a diferença.'],
+                    ['producer_id' => 1, 'stars' => 4, 'comment' => 'Bom atendimento e entrega no prazo.'],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Cláudia Reinert',
+                    'email' => 'claudia@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 2, 'stars' => 5, 'comment' => 'Ovos caipiras com gema linda, qualidade excelente.'],
+                    ['producer_id' => 3, 'stars' => 4, 'comment' => 'Geleia de maracujá deliciosa.'],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Fernando Kuhnen',
+                    'email' => 'fernando@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 1, 'stars' => 3, 'comment' => 'Produtos bons, mas a entrega atrasou um pouco.'],
+                    ['producer_id' => 2, 'stars' => 4, 'comment' => 'Iogurte natural muito gostoso.'],
+                    ['producer_id' => 3, 'stars' => 5, 'comment' => 'Atendimento atencioso, recomendo.'],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Patrícia Lemke',
+                    'email' => 'patricia@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 3, 'stars' => 5, 'comment' => 'Própolis de ótima qualidade, chegou bem embalado.'],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Rodrigo Voltolini',
+                    'email' => 'rodrigo@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 1, 'stars' => 4, 'comment' => 'Tomate cereja docinho, as crianças adoraram.'],
+                    ['producer_id' => 2, 'stars' => 3, 'comment' => 'Bom, mas achei o preço um pouco alto.'],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Beatriz Schmitt',
+                    'email' => 'beatriz@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 2, 'stars' => 5, 'comment' => 'Melhor queijo da região, sem dúvida.'],
+                    ['producer_id' => 3, 'stars' => 4, 'comment' => 'Arroz agulhinha de qualidade, soltinho.'],
+                    // avaliação ofensiva escondida pela curadoria — demonstra o campo hidden
+                    ['producer_id' => 1, 'stars' => 1, 'comment' => 'Comentário ofensivo removido pela moderação.', 'hidden' => true],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Anderson Probst',
+                    'email' => 'anderson@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 1, 'stars' => 5, 'comment' => 'Abóbora cabotiá cremosa, rendeu uma ótima sopa.'],
+                    ['producer_id' => 3, 'stars' => 5, 'comment' => 'Mel silvestre incrível, já virei cliente fiel.'],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Luana Fronza',
+                    'email' => 'luana@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 2, 'stars' => 4, 'comment' => 'Laticínios frescos e saborosos.'],
+                    // avaliação editada pelo comprador — demonstra o campo edited_at
+                    ['producer_id' => 1, 'stars' => 4, 'comment' => 'Editei: depois de conversar, melhorou bastante.', 'edited_at' => now()],
+                ],
+            ],
+            [
+                'user' => [
+                    'name' => 'Thiago Maas',
+                    'email' => 'thiago@feirafeira.test',
+                    'password' => 'password',
+                    'email_verified_at' => now(),
+                    'role' => 'buyer',
+                ],
+                'ratings' => [
+                    ['producer_id' => 1, 'stars' => 4, 'comment' => 'Banana prata no ponto certo, bem doce.'],
+                    ['producer_id' => 2, 'stars' => 5, 'comment' => 'Ovos sempre frescos, virou rotina comprar aqui.'],
+                    ['producer_id' => 3, 'stars' => 4, 'comment' => 'Boa variedade de produtos apícolas.'],
+                ],
+            ],
+        ];
+
         foreach ($producers as $data) {
             $user = User::create($data['user']);
             $producer = Producer::create(array_merge($data['producer'], ['user_id' => $user->id]));
@@ -104,6 +383,21 @@ class DemoSeeder extends Seeder
                     'unit'         => $productData['unit'],
                     'photo'        => $productData['photo'] ?? null,
                     'is_available' => true,
+                ]);
+            }
+        }
+
+        foreach ($buyers as $data) {
+            $user = User::create($data['user']);
+            
+            foreach ($data['ratings'] as $ratingData) {
+                Rating::create([
+                    'producer_id' => $ratingData['producer_id'],
+                    'buyer_id' => $user->id,
+                    'stars' => $ratingData['stars'],
+                    'comment' => $ratingData['comment'],
+                    'hidden' => $ratingData['hidden'] ?? false,
+                    'edited_at' => $ratingData['edited_at'] ?? null,
                 ]);
             }
         }
