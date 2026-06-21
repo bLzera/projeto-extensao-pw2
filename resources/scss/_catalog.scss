@@ -521,7 +521,7 @@
     }
 }
 
-// Pagination (Bootstrap 5 structure via Paginator::useBootstrapFive())
+// Pagination (custom view: resources/views/pagination/default.blade.php)
 .pagination {
     display: flex;
     flex-wrap: wrap;
