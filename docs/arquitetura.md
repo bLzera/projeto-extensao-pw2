@@ -50,48 +50,66 @@ que não têm equivalente HTML nativo (ex: preview de imagem antes do upload, se
 ### Diagrama de Entidades
 
 ```
-users
-┌──────────────────────┐
-│ id                   │ PK
-│ name                 │
-│ email                │ unique
-│ email_verified_at    │ nullable
+users                                   favorites (pivot buyer↔produto)
+┌──────────────────────┐                ┌──────────────────────┐
+│ id                   │ PK             │ id                   │ PK
+│ name                 │                │ user_id              │ FK→users
+│ email                │ unique         │ product_id           │ FK→products
+│ role                 │ enum(producer, │ created_at/updated_at│
+│                      │  buyer) def.   │ UNIQUE(user_id,      │
+│                      │  'producer'    │        product_id)   │
+│ email_verified_at    │ nullable       └──────────────────────┘
 │ password             │
-│ remember_token       │ nullable
-│ created_at           │
-│ updated_at           │
-└──────────┬───────────┘
-           │ 1
-           │ hasOne
-           │ 1
-┌──────────▼───────────┐         ┌──────────────────────┐
-│ producers            │         │ categories           │
-├──────────────────────┤         ├──────────────────────┤
-│ id                   │ PK      │ id                   │ PK
-│ user_id              │ FK→users│ name                 │
-│ farm_name            │         │ slug                 │ unique
-│ description          │ nullable│ created_at           │
-│ city                 │         │ updated_at           │
-│ phone                │ nullable└──────────────────────┘
-│ whatsapp             │ nullable          │ 1
-│ contact_email        │ nullable          │ hasMany
-│ photo                │ nullable          │ N
-│ created_at           │    ┌──────────────▼───────────┐
-│ updated_at           │    │ products                 │
-└──────────┬───────────┘    ├──────────────────────────┤
-           │ 1              │ id                       │ PK
-           │ hasMany        │ producer_id              │ FK→producers
-           │ N              │ category_id              │ FK→categories
-           └────────────────│ name                     │
-                            │ description              │ nullable
-                            │ price                    │ decimal(10,2)
-                            │ unit                     │ ex: kg, unid., dúzia
-                            │ photo                    │ nullable
-                            │ is_available             │ boolean, default: true
-                            │ created_at               │
-                            │ updated_at               │
-                            └──────────────────────────┘
+│ remember_token       │ nullable       ratings (comprador avalia produtor)
+│ created_at/updated_at│                ┌──────────────────────┐
+└──────┬────────┬──────┘                │ id                   │ PK
+       │1       │ (buyer_id)            │ buyer_id             │ FK→users
+       │hasOne  └──────────────────────▶│ producer_id          │ FK→producers
+       │1                               │ stars                │ tinyint 1–5
+┌──────▼───────────────┐                │ comment              │ nullable
+│ producers            │◀───────────────│ hidden               │ bool def. false
+├──────────────────────┤  (producer_id) │ status               │ enum(active,
+│ id                   │ PK             │                      │  deleted)
+│ user_id              │ FK→users uniq  │ edited_at            │ nullable
+│ farm_name            │                │ created_at/updated_at│
+│ slug                 │ unique         │ UNIQUE(buyer_id,     │
+│ description          │ nullable       │        producer_id)  │
+│ city                 │                └──────────────────────┘
+│ phone                │ nullable
+│ whatsapp             │ nullable       categories
+│ contact_email        │ nullable       ┌──────────────────────┐
+│ photo                │ nullable       │ id                   │ PK
+│ created_at/updated_at│                │ name                 │
+└──────────┬───────────┘                │ slug                 │ unique
+           │ 1                          │ created_at/updated_at│
+           │ hasMany                    └──────────┬───────────┘
+           │ N                                     │ 1 hasMany / N
+           │            ┌──────────────────────────▼──────────┐
+           └───────────▶│ products                            │
+                        ├─────────────────────────────────────┤
+                        │ id                       │ PK
+                        │ producer_id              │ FK→producers (cascade)
+                        │ category_id              │ FK→categories (restrict)
+                        │ name                     │
+                        │ slug                     │ unique
+                        │ description              │ nullable
+                        │ price                    │ decimal(10,2)
+                        │ unit                     │ ex: kg, unid., dúzia
+                        │ photo                    │ nullable (upload ou URL externa)
+                        │ is_available             │ boolean, default: true
+                        │ is_featured              │ boolean, default: false
+                        │ created_at/updated_at    │
+                        └─────────────────────────────────────┘
 ```
+
+**Notas de integridade:**
+- `producers.user_id` é único (1 perfil por usuário) e cascateia na exclusão do usuário.
+- `products.producer_id` cascateia; `products.category_id` usa `restrictOnDelete` —
+  uma categoria não pode ser apagada com produtos vinculados.
+- `favorites` e `ratings` têm índice único do par, garantindo no banco "um favorito por
+  produto" e "uma avaliação por produtor".
+- `slug` em `producers` e `products` é gerado automaticamente no Model (hook `saving`),
+  com sufixo numérico para evitar colisão.
 
 ### Categorias (Seed)
 
@@ -114,14 +132,15 @@ users
 
 ```
 // ─── Rotas Públicas (sem autenticação) ───────────────────────────
-GET  /                               HomeController@index
-GET  /produtos/{product}             ProductController@show
-GET  /produtores                     ProducerController@index
-GET  /produtores/{producer}          ProducerController@show
+GET  /                                     HomeController@index
+GET  /produtos/{product:slug}              ProductController@show
+GET  /produtores                           ProducerController@index
+GET  /produtores/{producer:slug}/avaliacoes ProducerController@ratings
+GET  /produtores/{producer:slug}           ProducerController@show
 
-// ─── Auth (gerado pelo Breeze) ────────────────────────────────────
+// ─── Auth (gerado pelo Breeze; register com campo `role`) ─────────
 GET  /register                       RegisteredUserController@create
-POST /register                       RegisteredUserController@store
+POST /register                       RegisteredUserController@store   // valida role in:producer,buyer
 GET  /login                          AuthenticatedSessionController@create
 POST /login                          AuthenticatedSessionController@store
 POST /logout                         AuthenticatedSessionController@destroy
@@ -131,12 +150,17 @@ GET  /verify-email                   EmailVerificationPromptController
 GET  /verify-email/{id}/{hash}       VerifyEmailController
 POST /email/verification-notification EmailVerificationNotificationController
 
-// ─── Setup de Perfil (auth + verified, sem perfil) ───────────────
-GET  /setup                          ProducerSetupController@create
-POST /setup                          ProducerSetupController@store
+// ─── Conta do usuário (auth — Breeze) ────────────────────────────
+GET    /profile                      ProfileController@edit
+PATCH  /profile                      ProfileController@update
+DELETE /profile                      ProfileController@destroy
 
-// ─── Dashboard (auth + verified + perfil completo) ───────────────
-GET  /dashboard                      DashboardController@index
+// ─── Setup de Perfil (auth + verified, sem perfil) ───────────────
+GET  /setup                          Producer\SetupController@create
+POST /setup                          Producer\SetupController@store
+
+// ─── Dashboard (auth + verified + producer.profile) ──────────────
+GET  /dashboard                      Producer\DashboardController@index
 
 // ─── Perfil do Produtor — gerenciamento (mesmos guards) ──────────
 GET   /dashboard/profile             Producer\ProfileController@edit
@@ -148,17 +172,30 @@ POST   /dashboard/produtos                    Producer\ProductController@store
 GET    /dashboard/produtos/{product}/editar   Producer\ProductController@edit
 PUT    /dashboard/produtos/{product}          Producer\ProductController@update
 DELETE /dashboard/produtos/{product}          Producer\ProductController@destroy
-PATCH  /dashboard/produtos/{product}/disponibilidade
-                                              Producer\ProductController@toggleAvailability
+PATCH  /dashboard/produtos/{product}/disponibilidade  Producer\ProductController@toggleAvailability
+PATCH  /dashboard/produtos/{product}/destaque         Producer\ProductController@toggleFeatured
+
+// ─── Curadoria de avaliações do produtor (mesmos guards) ─────────
+PATCH  /dashboard/avaliacoes/{rating}/visibilidade    Producer\DashboardRatingController@toggle
+
+// ─── Funcionalidades de comprador (auth + verified) ──────────────
+POST   /favoritos/{product}                FavoriteController@toggle
+GET    /meus-favoritos                     Buyer\FavoritesPageController@index
+POST   /produtores/{producer}/avaliar      RatingController@upsert
+DELETE /produtores/{producer}/avaliar      RatingController@destroy
 ```
 
 ### Middleware por grupo de rota
 
-| Grupo            | Middlewares aplicados                              |
-|------------------|----------------------------------------------------|
-| Público          | nenhum                                             |
-| Auth + verified  | `auth`, `verified`                                 |
-| Dashboard        | `auth`, `verified`, `EnsureProducerProfileComplete`|
+| Grupo                   | Middlewares aplicados                              |
+|-------------------------|----------------------------------------------------|
+| Público                 | nenhum                                             |
+| Conta / setup / comprador | `auth`, `verified`                               |
+| Dashboard do produtor   | `auth`, `verified`, `producer.profile`             |
+
+O middleware `producer.profile` (alias de `EnsureProducerProfileComplete`) redireciona
+compradores para a home e produtores sem perfil para o `/setup`, evitando que cheguem ao
+dashboard sem o perfil de negócio completo.
 
 ---
 
@@ -171,28 +208,37 @@ Esse método aciona o sistema de Policies do Laravel para verificar permissões.
 ```
 app/Http/Controllers/
 ├── Controller.php                   # base: usa AuthorizesRequests
-├── HomeController.php               # GET / — catálogo público
-├── ProductController.php            # GET /produtos/{product}
-├── ProducerController.php           # GET /produtores, /produtores/{producer}
+├── HomeController.php               # GET / — catálogo público (filtros, busca, ordenação)
+├── ProductController.php            # GET /produtos/{slug}
+├── ProducerController.php           # GET /produtores, /produtores/{slug}, .../avaliacoes
+├── FavoriteController.php           # POST /favoritos/{product} — toggle (comprador)
+├── RatingController.php             # POST|DELETE /produtores/{producer}/avaliar (comprador)
+├── ProfileController.php            # conta do usuário (Breeze)
 ├── Auth/
-│   └── ...                          # gerado pelo Breeze
-├── Producer/
-│   ├── DashboardController.php      # GET /dashboard
-│   ├── ProfileController.php        # GET|PUT /dashboard/perfil
-│   ├── ProductController.php        # CRUD /dashboard/produtos
-│   └── SetupController.php          # GET|POST /setup
-└── Middleware/
-    └── EnsureProducerProfileComplete.php
+│   └── ...                          # gerado pelo Breeze (register com campo role)
+├── Buyer/
+│   └── FavoritesPageController.php  # GET /meus-favoritos
+└── Producer/
+    ├── DashboardController.php      # GET /dashboard
+    ├── ProfileController.php        # GET|PATCH /dashboard/profile
+    ├── ProductController.php        # CRUD /dashboard/produtos + toggles
+    ├── SetupController.php          # GET|POST /setup
+    └── DashboardRatingController.php# PATCH visibilidade de avaliação (curadoria)
+
+app/Http/Middleware/
+└── EnsureProducerProfileComplete.php  # alias: producer.profile
 ```
 
-### Policies
+### Autorização
 
-| Policy           | Model   | Métodos           | Regra                                          |
-|------------------|---------|-------------------|------------------------------------------------|
-| `ProductPolicy`  | Product | `update`, `delete`| `$user->producer->id === $product->producer_id`|
+| Mecanismo                     | Onde                              | Regra                                                        |
+|-------------------------------|-----------------------------------|--------------------------------------------------------------|
+| `ProductPolicy`               | Producer\ProductController        | `$user->producer?->id === $product->producer_id` (`update`, `delete`) |
+| Verificação inline (`abort_if`)| RatingController, DashboardRatingController | comprador só mexe na própria avaliação; produtor só cura avaliações do próprio negócio |
+| `isBuyer()` / `isProducer()`  | Controllers de favoritos/avaliação| capacidades exclusivas por papel (tentativa cruzada → 403)   |
 
-Policies são descobertas automaticamente pelo Laravel via convenção de nome
-(`Product` → `ProductPolicy`). Não é necessário registro manual.
+`ProductPolicy` é descoberta automaticamente pelo Laravel via convenção de nome
+(`Product` → `ProductPolicy`), sem registro manual.
 
 ---
 
@@ -248,17 +294,19 @@ projeto-extensao-pw2/
 │   │   ├── Middleware/
 │   │   └── Requests/        # Form Requests de validação
 │   ├── Models/
-│   │   ├── User.php
-│   │   ├── Producer.php
-│   │   ├── Product.php
-│   │   └── Category.php
+│   │   ├── User.php           # role producer|buyer; favorites(); ratings()
+│   │   ├── Producer.php       # slug auto; whatsappUrl(); ratings()/activeRatings()
+│   │   ├── Product.php        # slug auto; photo_url (upload ou URL externa)
+│   │   ├── Category.php
+│   │   └── Rating.php         # avaliação do comprador ao produtor
 │   └── Policies/
 │       └── ProductPolicy.php  # garante que produtor edita só seus produtos
 ├── database/
 │   ├── migrations/
 │   └── seeders/
 │       ├── DatabaseSeeder.php
-│       └── CategorySeeder.php
+│       ├── CategorySeeder.php # categorias fixas
+│       └── DemoSeeder.php     # produtores, produtos e avaliações de demonstração
 ├── resources/
 │   ├── scss/                # conforme seção 5
 │   └── views/

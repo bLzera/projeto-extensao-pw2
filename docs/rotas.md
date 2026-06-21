@@ -10,10 +10,11 @@ Acessíveis por qualquer visitante, sem necessidade de autenticação.
 
 | Método | URI | Controller | Nome | Descrição |
 |--------|-----|-----------|------|-----------|
-| GET | `/` | `HomeController@index` | `home` | Página inicial com catálogo de produtos |
-| GET | `/produtos/{product}` | `ProductController@show` | `products.show` | Detalhes de um produto |
+| GET | `/` | `HomeController@index` | `home` | Catálogo de produtos com filtros (categoria, cidade), busca e ordenação |
+| GET | `/produtos/{product:slug}` | `ProductController@show` | `products.show` | Detalhes de um produto |
 | GET | `/produtores` | `ProducerController@index` | `producers.index` | Listagem de produtores |
-| GET | `/produtores/{producer}` | `ProducerController@show` | `producers.show` | Perfil público de um produtor |
+| GET | `/produtores/{producer:slug}/avaliacoes` | `ProducerController@ratings` | `producers.ratings.index` | Página com todas as avaliações visíveis do produtor (paginada) |
+| GET | `/produtores/{producer:slug}` | `ProducerController@show` | `producers.show` | Perfil público de um produtor |
 
 ---
 
@@ -47,6 +48,23 @@ Acessíveis apenas para usuários autenticados, com e-mail verificado e com perf
 | PUT | `/dashboard/produtos/{product}` | `DashboardProductController@update` | `producer.products.update` | Atualiza um produto |
 | DELETE | `/dashboard/produtos/{product}` | `DashboardProductController@destroy` | `producer.products.destroy` | Remove um produto |
 | PATCH | `/dashboard/produtos/{product}/disponibilidade` | `DashboardProductController@toggleAvailability` | `producer.products.toggle` | Alterna a disponibilidade de um produto |
+| PATCH | `/dashboard/produtos/{product}/destaque` | `DashboardProductController@toggleFeatured` | `producer.products.toggleFeatured` | Alterna o destaque de um produto |
+| PATCH | `/dashboard/avaliacoes/{rating}/visibilidade` | `DashboardRatingController@toggle` | `dashboard.ratings.toggle` | Oculta/exibe uma avaliação recebida no feed público |
+
+---
+
+## Rotas Autenticadas — Comprador
+
+Funcionalidades exclusivas de contas `role=buyer`. Tentativas por visitantes ou produtores retornam 403.
+
+**Middleware:** `auth`, `verified`
+
+| Método | URI | Controller | Nome | Descrição |
+|--------|-----|-----------|------|-----------|
+| POST | `/favoritos/{product}` | `FavoriteController@toggle` | `favorites.toggle` | Adiciona/remove um produto dos favoritos |
+| GET | `/meus-favoritos` | `Buyer\FavoritesPageController@index` | `buyer.favorites` | Lista os produtos favoritados |
+| POST | `/produtores/{producer}/avaliar` | `RatingController@upsert` | `ratings.upsert` | Cria ou edita a avaliação do produtor |
+| DELETE | `/produtores/{producer}/avaliar` | `RatingController@destroy` | `ratings.destroy` | Exclui (soft delete) a própria avaliação |
 
 ---
 
@@ -72,8 +90,8 @@ Rotas geradas pelo Laravel Breeze para registro, login e recuperação de senha.
 
 | Método | URI | Controller | Nome | Descrição |
 |--------|-----|-----------|------|-----------|
-| GET | `/register` | `RegisteredUserController@create` | `register` | Formulário de cadastro |
-| POST | `/register` | `RegisteredUserController@store` | — | Processa o cadastro |
+| GET | `/register` | `RegisteredUserController@create` | `register` | Formulário de cadastro (seleção de papel: produtor/comprador) |
+| POST | `/register` | `RegisteredUserController@store` | — | Processa o cadastro (valida `role` in:producer,buyer) |
 | GET | `/login` | `AuthenticatedSessionController@create` | `login` | Formulário de login |
 | POST | `/login` | `AuthenticatedSessionController@store` | — | Processa o login |
 | GET | `/forgot-password` | `PasswordResetLinkController@create` | `password.request` | Formulário de recuperação de senha |

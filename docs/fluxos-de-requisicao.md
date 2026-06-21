@@ -33,9 +33,10 @@ HomeController@index
     │
     └─ Product::with(['producer', 'category'])
            ->where('is_available', true)
-           ->when($request->categoria, ...)   ← aplica filtro de slug se presente
-           ->when($request->busca, ...)        ← aplica LIKE se presente
-           ->latest()
+           ->when($request->categoria, ...)   ← filtra por slug da categoria se presente
+           ->when($request->cidade, ...)       ← filtra por cidade do produtor se presente
+           ->when($request->busca, ...)        ← aplica LIKE no nome se presente
+           ->when($request->ordem, ...)        ← ordena (preço/alfabética); padrão latest()
            ->paginate(12)
            ->withQueryString()
                 └─ SELECT + COUNT em products, JOIN em producers e categories
