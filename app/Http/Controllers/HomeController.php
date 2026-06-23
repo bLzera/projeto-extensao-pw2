@@ -45,7 +45,7 @@ class HomeController extends Controller
             ? Auth::user()->favorites()->pluck('product_id')
             : collect();
 
-        return view('home.index', [
+        $data = [
             'products'        => $products,
             'categories'      => $categories,
             'cities'          => $cities,
@@ -54,6 +54,14 @@ class HomeController extends Controller
             'busca'           => $request->busca,
             'ordem'           => $request->ordem ?? 'recentes',
             'favoritedIds'    => $favoritedIds,
-        ]);
+        ];
+
+        // Requisições AJAX recebem só o catálogo (search + filtros + grid),
+        // que o componente Alpine usa para trocar o conteúdo sem refresh.
+        if ($request->ajax()) {
+            return view('home._catalog', $data);
+        }
+
+        return view('home.index', $data);
     }
 }

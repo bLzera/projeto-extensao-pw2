@@ -27,55 +27,13 @@
     }
 }
 
-// Catalog toolbar (search + sort lado a lado)
-.catalog-toolbar {
-    display: flex;
-    align-items: flex-end;
-    gap: $space-4;
-    margin: $space-6 0 $space-5;
+// Catalog content (região trocada via AJAX)
+.catalog-content {
+    transition: opacity $transition-base;
 
-    @include respond-to($bp-md) {
-        flex-wrap: wrap;
-        align-items: stretch;
-    }
-
-    .search-bar {
-        flex: 1;
-        margin: 0;
-    }
-}
-
-// Sort form
-.sort-form {
-    display: flex;
-    flex-direction: column;
-    gap: $space-1;
-    flex-shrink: 0;
-
-    @include respond-to($bp-md) {
-        flex: 1;
-    }
-
-    &__label {
-        font-size: $font-size-sm;
-        color: $color-text-muted;
-    }
-
-    &__select {
-        padding: $space-3 $space-4;
-        border: 1px solid $color-border;
-        border-radius: $border-radius;
-        font-size: $font-size-base;
-        font-family: $font-family-base;
-        color: $color-text;
-        background: white;
-        cursor: pointer;
-
-        &:focus {
-            outline: none;
-            border-color: $color-primary;
-            box-shadow: 0 0 0 3px rgba($color-primary, .15);
-        }
+    &--loading {
+        opacity: .5;
+        pointer-events: none;
     }
 }
 
@@ -120,37 +78,104 @@
     }
 }
 
-// Category nav
-.category-nav {
+// Filter bar (dropdowns por dimensão)
+.filter-bar {
     display: flex;
     flex-wrap: wrap;
-    gap: $space-2;
+    align-items: center;
+    gap: $space-3;
     margin-bottom: $space-5;
+}
 
-    &__item {
-        padding: $space-2 $space-4;
-        border-radius: 99px;
+.filter-dropdown {
+    position: relative;
+
+    // Empurra o filtro para a direita da barra (ex.: ordenação).
+    &--end {
+        margin-left: auto;
+    }
+
+    &__trigger {
+        display: inline-flex;
+        align-items: baseline;
+        gap: $space-2;
+        padding: $space-2 $space-3;
         border: 1px solid $color-border;
-        font-size: $font-size-sm;
-        color: $color-text;
+        border-radius: $border-radius;
         background: white;
-        text-decoration: none;
-        transition: border-color $transition-base, color $transition-base, background $transition-base;
+        font-family: $font-family-base;
+        font-size: $font-size-sm;
+        color: $color-text-muted;
+        cursor: pointer;
+        transition: border-color $transition-base, box-shadow $transition-base;
 
         &:hover {
             border-color: $color-primary;
+        }
+
+        &--open {
+            border-color: $color-primary;
+            box-shadow: 0 0 0 3px rgba($color-primary, .15);
+        }
+    }
+
+    &__value {
+        font-weight: 600;
+        color: $color-text;
+    }
+
+    &__caret {
+        font-size: 0.7rem;
+        color: $color-text-muted;
+    }
+
+    &__menu {
+        position: absolute;
+        top: calc(100% + #{$space-2});
+        left: 0;
+        z-index: 200;
+        min-width: 200px;
+        max-height: 320px;
+        overflow-y: auto;
+        margin: 0;
+        padding: $space-1;
+        list-style: none;
+        background: white;
+        border: 1px solid $color-border;
+        border-radius: $border-radius;
+        box-shadow: $shadow-md;
+
+        &--right {
+            left: auto;
+            right: 0;
+        }
+    }
+
+    &__option {
+        display: flex;
+        align-items: center;
+        gap: $space-2;
+        padding: $space-2 $space-3;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-sm;
+        color: $color-text;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background $transition-base, color $transition-base;
+
+        &:hover {
+            background: $color-bg;
             color: $color-primary;
             text-decoration: none;
         }
 
         &--active {
-            background: $color-primary;
-            border-color: $color-primary;
-            color: white;
+            color: $color-primary;
+            font-weight: 600;
 
-            &:hover {
-                color: white;
-                background: color.adjust($color-primary, $lightness: -6%);
+            &::before {
+                content: '✓';
+                font-size: 0.8rem;
             }
         }
     }
