@@ -48,6 +48,7 @@ Route::middleware(['auth', 'verified', 'producer.profile'])->group(function () {
     Route::patch('/dashboard/produtos/{product}/destaque', [DashboardProductController::class, 'toggleFeatured'])->name('producer.products.toggleFeatured');
 
     Route::patch('/dashboard/avaliacoes/{rating}/visibilidade', [DashboardRatingController::class, 'toggle'])->name('dashboard.ratings.toggle');
+    Route::patch('/dashboard/avaliacoes/visibilidade', [DashboardRatingController::class, 'toggleAll'])->name('dashboard.ratings.toggleAll');
 });
 
 // Perfil do usuário (Breeze)

@@ -22,7 +22,7 @@
             <div class="stat-card__label">Produtos cadastrados</div>
         </div>
         <div class="stat-card">
-            <div class="stat-card__number">{{ $availableProducts }}</div>
+            <div class="stat-card__number" x-data="productAvailableCount({{ $availableProducts }})" x-text="count" @products-available-count-change.window="onAvailableChange($event.detail.count)"></div>
             <div class="stat-card__label">Disponíveis</div>
         </div>
     </div>
@@ -58,7 +58,13 @@
                     </thead>
                     <tbody>
                         @foreach ($products as $product)
-                            <tr>
+                            <tr x-data="productCard({
+                                is_featured: {{ $product->is_featured ? 'true' : 'false' }},
+                                featuredUrl: '{{ route('producer.products.toggleFeatured', $product) }}',
+
+                                is_available: {{ $product->is_available ? 'true' : 'false' }},  
+                                availableUrl: '{{ route('producer.products.toggle', $product) }}',
+                            })">
                                 <td>
                                     @if ($product->photo)
                                         <img class="product-thumb"
@@ -73,36 +79,15 @@
                                 <td>R$ {{ number_format($product->price, 2, ',', '.') }}</td>
                                 <td>{{ $product->unit }}</td>
                                 <td>
-                                    <span class="badge {{ $product->is_available ? 'badge--success' : 'badge--muted' }}">
-                                        {{ $product->is_available ? 'Disponível' : 'Indisponível' }}
-                                    </span>
+                                    <span class="badge" :class="available ? 'badge--success' : 'badge--muted'" x-text="available ? 'Disponível' : 'Indisponível'"></span>
                                 </td>
                                 <td>
-                                    <form method="POST" action="{{ route('producer.products.toggleFeatured', $product) }}">
-                                        @csrf
-                                        @method('PATCH')
-                                        @if ($product->is_featured)
-                                            <button class="btn btn--sm btn--featured" type="submit" title="Remover destaque">
-                                                ⭐ Em destaque
-                                            </button>
-                                        @else
-                                            <button class="btn btn--sm btn--outline" type="submit" title="Destacar produto">
-                                                Destacar
-                                            </button>
-                                        @endif
-                                    </form>
+                                    <button @click="toggleFeatured()" class="btn btn--sm" :class="featured ?  'btn--featured' : 'btn--outline'" type="button" title="toggle_destaque" x-text="featured ? '⭐ Em destaque' : 'Destacar'"></button>
                                 </td>
                                 <td>
                                     <div class="product-actions">
                                         <a class="btn btn--sm" href="{{ route('producer.products.edit', $product) }}">Editar</a>
-
-                                        <form method="POST" action="{{ route('producer.products.toggle', $product) }}">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button class="btn btn--sm btn--outline" type="submit">
-                                                {{ $product->is_available ? 'Desativar' : 'Ativar' }}
-                                            </button>
-                                        </form>
+                                        <button @click="toggleAvailable()" class="btn btn--sm btn--outline" type="button" x-text="available ? 'Desativar' : 'Ativar'"></button>
 
                                         <form method="POST" action="{{ route('producer.products.destroy', $product) }}"
                                             onsubmit="return confirm('Deseja excluir este produto?')">
@@ -127,12 +112,21 @@
     <div class="ratings-panel">
         <div class="ratings-panel__header">
             <h2>Avaliações recebidas</h2>
-            <div class="ratings-panel__stats">
-                <span><strong>{{ $activeRatingsCount }}</strong> {{ $activeRatingsCount === 1 ? 'avaliação' : 'avaliações' }}</span>
-                @if ($averageRating !== null)
-                    <span>Média <strong>{{ number_format($averageRating, 1) }}</strong></span>
-                @endif
-                <span><strong>{{ $hiddenRatingsCount }}</strong> {{ $hiddenRatingsCount === 1 ? 'oculta' : 'ocultas' }}</span>
+            <div class="ratings-panel__stats_container">
+                <div class="ratings-panel__stats">
+                    <span><strong>{{ $activeRatingsCount }}</strong> {{ $activeRatingsCount === 1 ? 'avaliação' : 'avaliações' }}</span>
+                    @if ($averageRating !== null)
+                        <span>Média <strong>{{ number_format($averageRating, 1) }}</strong></span>
+                    @endif
+                    <span x-data="ratingVisibilityCount({{ $hiddenRatingsCount }})" @ratings-visibility-count-change.window="onVisibilityChange($event.detail.count)">
+                        <strong x-text="count"></strong> 
+                        <span x-text="count === 1 ? 'oculta' : 'ocultas'"></span>
+                    </span>
+                </div>         
+                <div class="ratings-panel__general-toggle" x-data="ratingBulk('{{ route('dashboard.ratings.toggleAll') }}')">
+                    <button type="button" class="btn btn--sm btn--outline" @click="toggleAll('true')" :disabled="loading">Ocultar todas</button>
+                    <button type="button" class="btn btn--sm btn--outline" @click="toggleAll('false')" :disabled="loading">Exibir todas</button>                    
+                </div>
             </div>
         </div>
 
@@ -156,7 +150,9 @@
                     </thead>
                     <tbody>
                         @foreach ($ratings as $rating)
-                            <tr>
+                            <tr x-data="ratingRow({{ $rating->hidden ? 'true' : 'false' }}, '{{ route('dashboard.ratings.toggle', $rating) }}')"
+                                @ratings-visibility-change.window="onBulkChange($event.detail.hidden)">
+
                                 <td>{{ $rating->buyer->name ?? 'Comprador' }}</td>
                                 <td>
                                     <span class="star-display">
@@ -170,19 +166,12 @@
                                 </td>
                                 <td class="ratings-panel__comment">{{ $rating->comment ?: '—' }}</td>
                                 <td>
-                                    <span class="badge {{ $rating->hidden ? 'badge--muted' : 'badge--success' }}">
-                                        {{ $rating->hidden ? 'Oculta' : 'Visível' }}
-                                    </span>
+                                    <span class="badge" :class="hidden ? 'badge--muted' : 'badge--success'" x-text="hidden ? 'Oculta' : 'Visível'"></span>
                                 </td>
                                 <td>
-                                    <form method="POST" action="{{ route('dashboard.ratings.toggle', $rating) }}">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button class="btn btn--sm btn--outline" type="submit">
-                                            {{ $rating->hidden ? 'Exibir' : 'Ocultar' }}
-                                        </button>
-                                    </form>
+                                    <button class="btn btn--sm btn--outline" type="button" @click="toggle()" :disabled="loading" x-text="hidden ? 'Exibir' : 'Ocultar'"></button>
                                 </td>
+
                             </tr>
                         @endforeach
                     </tbody>

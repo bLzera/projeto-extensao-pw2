@@ -77,6 +77,12 @@
 
     &:active { transform: scale(.97); }
 
+    &:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+        transform: none;
+    }
+
     &--primary {
         background: $color-primary;
         color: white;
@@ -183,6 +189,12 @@
         }
     }
 
+    &__stats_container{
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }    
+
     &__stats {
         display: flex;
         gap: $space-4;
@@ -193,6 +205,13 @@
         strong {
             color: $color-text;
         }
+    }
+
+    &__general-toggle{
+        display: flex;
+        align-items: center;
+        gap: $space-2;
+        max-height: fit-content;
     }
 
     &__comment {

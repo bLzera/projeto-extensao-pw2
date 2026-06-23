@@ -7,6 +7,9 @@ use App\Http\Requests\Producer\StoreProductRequest;
 use App\Http\Requests\Producer\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -86,16 +89,24 @@ class ProductController extends Controller
         return redirect()->route('dashboard')->with('success', 'Produto removido com sucesso!');
     }
 
-    public function toggleAvailability(Product $product)
+    public function toggleAvailability(Request $request, Product $product)
     {
         $this->authorize('update', $product);
 
         $product->update(['is_available' => !$product->is_available]);
 
+        if($request->expectsJson()){
+            return response()->json([
+                'is_available' => $product->is_available,
+                'available_count' => $product->producer->products()->where('is_available', true)->count(),
+                'message' => $product->is_available ? 'Produto disponível' : 'Produto indisponível',
+            ]);
+        }        
+
         return redirect()->route('dashboard');
     }
 
-    public function toggleFeatured(Product $product)
+    public function toggleFeatured(Request $request, Product $product): JsonResponse|RedirectResponse
     {
         $this->authorize('update', $product);
 
@@ -105,12 +116,26 @@ class ProductController extends Controller
         if (! $product->is_featured) {
             $featuredCount = $producer->products()->where('is_featured', true)->count();
             if ($featuredCount >= 3) {
+                if($request->expectsJson()){
+                    return response()->json([
+                        'is_featured' => $product->is_featured,
+                        'message' => 'Você já tem 3 produtos em destaque. Remova um antes de adicionar o outro.',
+                    ]);
+                };
+
                 return redirect()->route('dashboard')
                     ->with('error', 'Você já tem 3 produtos em destaque. Remova um antes de adicionar outro.');
             }
         }
 
         $product->update(['is_featured' => ! $product->is_featured]);
+
+        if($request->expectsJson()){
+            return response()->json([
+                'is_featured' => $product->is_featured,
+                'message' => $product->is_featured ? 'Produto destacado' : 'Produto não destacado',
+            ]);
+        }
 
         return redirect()->route('dashboard');
     }
