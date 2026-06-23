@@ -1,9 +1,10 @@
 SAIL = ./vendor/bin/sail
+SCRIPTS = ./scripts/
 
 .PHONY: help up down restart logs bash tinker \
         migrate seed fresh storage setup \
         npm-install npm-dev npm-build \
-        artisan composer test routes clear
+        artisan composer test routes clear select
 
 # Exibe esta ajuda. Executar sem alvo também chama este target.
 help:
@@ -22,6 +23,8 @@ help:
 	@echo "  make migrate       Roda as migrations pendentes"
 	@echo "  make seed          Popula o banco com os seeders (categorias, etc.)"
 	@echo "  make fresh         Recria o banco do zero e roda seed — destrói dados locais"
+	@echo "  make select Q=\"<query>\"  Roda uma consulta de leitura (SELECT/SHOW/DESCRIBE)"
+	@echo "                     Ex: make select Q=\"SELECT id, name FROM products LIMIT 5\""
 	@echo ""
 	@echo "Setup inicial (rode uma vez após clonar)"
 	@echo "  make install       setup completo após clonar (composer, up, migrate, seed, assets)"
@@ -93,6 +96,9 @@ seed:
 
 fresh:
 	$(SAIL) artisan migrate:fresh --seed
+
+select:
+	@$(SCRIPTS)db-select.sh "$(Q)"
 
 # ─── Setup inicial ────────────────────────────────────────────────
 storage:
