@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Producer;
+use App\Models\City;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,18 +14,17 @@ class HomeController extends Controller
     {
         $categories = Category::orderBy('name')->get();
 
-        $cities = Producer::whereHas('products', fn($q) => $q->where('is_available', true))
-            ->distinct()
-            ->orderBy('city')
-            ->pluck('city');
+        $cities = City::whereHas('producers.products', fn($q) => $q->where('is_available', true))
+            ->orderBy('name')
+            ->get();
 
-        $products = Product::with(['producer', 'category'])
+        $products = Product::with(['producer.city', 'category'])
             ->where('is_available', true)
             ->when($request->categoria, fn($q, $slug) =>
                 $q->whereHas('category', fn($q) => $q->where('slug', $slug))
             )
-            ->when($request->cidade, fn($q, $city) =>
-                $q->whereHas('producer', fn($q) => $q->where('city', $city))
+            ->when($request->city, fn($q, $city) =>
+                $q->whereHas('producer.city', fn($q) => $q->where('name', $city))
             )
             ->when($request->busca, fn($q, $term) =>
                 $q->where('name', 'like', "%{$term}%")
@@ -50,7 +49,7 @@ class HomeController extends Controller
             'categories'      => $categories,
             'cities'          => $cities,
             'currentCategory' => $request->categoria,
-            'currentCity'     => $request->cidade,
+            'currentCity'     => $request->city,
             'busca'           => $request->busca,
             'ordem'           => $request->ordem ?? 'recentes',
             'favoritedIds'    => $favoritedIds,

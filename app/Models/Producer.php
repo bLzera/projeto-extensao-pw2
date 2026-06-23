@@ -14,7 +14,7 @@ class Producer extends Model
         'user_id',
         'farm_name',
         'description',
-        'city',
+        'city_id',
         'phone',
         'whatsapp',
         'contact_email',
@@ -68,6 +68,11 @@ class Producer extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
     }
 
     public function products(): HasMany

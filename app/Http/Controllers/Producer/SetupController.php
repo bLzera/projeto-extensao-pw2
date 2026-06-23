@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Producer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\StoreSetupRequest;
+use App\Models\City;
 use App\Models\Producer;
 
 class SetupController extends Controller
@@ -18,7 +19,9 @@ class SetupController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('auth.setup');
+        $cities = City::orderBy('name')->get();
+
+        return view('auth.setup', compact('cities'));
     }
 
     public function store(StoreSetupRequest $request)

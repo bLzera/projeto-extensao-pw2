@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
             $table->string('farm_name');
             $table->text('description')->nullable();
-            $table->string('city');
+            $table->foreignId('city_id')->constrained()->restrictOnDelete();
             $table->string('phone', 20)->nullable();
             $table->string('whatsapp', 20)->nullable();
             $table->string('contact_email')->nullable();

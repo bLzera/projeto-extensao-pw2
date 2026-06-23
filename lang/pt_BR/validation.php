@@ -204,6 +204,7 @@ return [
         'role' => 'perfil',
         'farm_name' => 'nome da propriedade',
         'city' => 'cidade',
+        'city_id' => 'cidade',
         'description' => 'descrição',
         'phone' => 'telefone',
         'whatsapp' => 'WhatsApp',

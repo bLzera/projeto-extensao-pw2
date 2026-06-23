@@ -10,13 +10,13 @@ class ProducerController extends Controller
 {
     public function index(Request $request)
     {
-        $producers = Producer::with('user')
+        $producers = Producer::with(['user', 'city'])
             ->withCount(['products' => fn($q) => $q->where('is_available', true)])
             ->withAvg('activeRatings', 'stars')
             ->when($request->busca, fn($q, $term) =>
                 $q->where(function ($q) use ($term) {
                     $q->where('farm_name', 'like', "%{$term}%")
-                      ->orWhere('city', 'like', "%{$term}%");
+                      ->orWhereHas('city', fn($q) => $q->where('name', 'like', "%{$term}%"));
                 })
             )
             ->orderBy('farm_name')

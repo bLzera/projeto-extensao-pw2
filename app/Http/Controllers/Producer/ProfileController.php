@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Producer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Producer\UpdateProfileRequest;
+use App\Models\City;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -11,8 +12,9 @@ class ProfileController extends Controller
     public function edit()
     {
         $producer = auth()->user()->producer;
+        $cities = City::orderBy('name')->get();
 
-        return view('dashboard.profile.edit', compact('producer'));
+        return view('dashboard.profile.edit', compact('producer', 'cities'));
     }
 
     public function update(UpdateProfileRequest $request)

@@ -14,7 +14,7 @@
     <div class="producer-card__body">
         <h3 class="producer-card__name">{{ $producer->farm_name }}</h3>
         @if ($producer->city)
-            <p class="producer-card__city">{{ $producer->city }}</p>
+            <p class="producer-card__city">{{ $producer->city->name }}</p>
         @endif
         @if($averageRating !== null)
             <p class="producer-card__rating">

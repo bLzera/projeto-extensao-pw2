@@ -7,7 +7,7 @@
     <div class="form-card">
         <h1>Configurar Perfil</h1>
 
-        <form method="POST" action="{{ route('producer.setup.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('producer.setup.store') }}" enctype="multipart/form-data" x-data="{}">
             @csrf
 
             <div class="form-group">
@@ -20,10 +20,14 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="city">Cidade</label>
-                <input class="form-input" type="text" id="city" name="city"
-                    value="{{ old('city') }}" required>
-                @error('city')
+                <label class="form-label" for="city_id">Cidade</label>
+                <select class="form-input" id="city_id" name="city_id" required>
+                    <option value="">Selecione...</option>
+                    @foreach ($cities as $city)
+                        <option value="{{ $city->id }}" @selected(old('city_id') == $city->id)>{{ $city->name }}</option>
+                    @endforeach
+                </select>
+                @error('city_id')
                     <span class="form-error">{{ $message }}</span>
                 @enderror
             </div>
@@ -39,7 +43,8 @@
 
             <div class="form-group">
                 <label class="form-label" for="phone">Telefone</label>
-                <input class="form-input" type="text" id="phone" name="phone"
+                <input class="form-input" type="tel" inputmode="tel" maxlength="15" x-phone-mask
+                    id="phone" name="phone" placeholder="(00) 00000-0000"
                     value="{{ old('phone') }}">
                 @error('phone')
                     <span class="form-error">{{ $message }}</span>
@@ -48,7 +53,8 @@
 
             <div class="form-group">
                 <label class="form-label" for="whatsapp">WhatsApp</label>
-                <input class="form-input" type="text" id="whatsapp" name="whatsapp"
+                <input class="form-input" type="tel" inputmode="tel" maxlength="15" x-phone-mask
+                    id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000"
                     value="{{ old('whatsapp') }}">
                 @error('whatsapp')
                     <span class="form-error">{{ $message }}</span>

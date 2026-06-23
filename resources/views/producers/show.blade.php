@@ -23,7 +23,7 @@
             <h1 class="producer-profile__name">{{ $producer->farm_name }}</h1>
 
             @if ($producer->city)
-                <p class="producer-profile__city">{{ $producer->city }}</p>
+                <p class="producer-profile__city">{{ $producer->city->name }}</p>
             @endif
 
             @if($averageRating !== null)

@@ -20,7 +20,7 @@
         <input type="hidden" name="categoria" value="{{ $currentCategory }}">
     @endif
     @if ($currentCity)
-        <input type="hidden" name="cidade" value="{{ $currentCity }}">
+        <input type="hidden" name="city" value="{{ $currentCity }}">
     @endif
     @if ($ordem && $ordem !== 'recentes')
         <input type="hidden" name="ordem" value="{{ $ordem }}">
@@ -61,7 +61,7 @@
         >
             <li>
                 <a
-                    href="{{ route('home', array_filter(['busca' => $busca, 'cidade' => $currentCity] + $ordemParam)) }}"
+                    href="{{ route('home', array_filter(['busca' => $busca, 'city' => $currentCity] + $ordemParam)) }}"
                     class="filter-dropdown__option {{ ! $currentCategory ? 'filter-dropdown__option--active' : '' }}"
                     @click.prevent="apply($el.getAttribute('href'))"
                 >Todas</a>
@@ -69,7 +69,7 @@
             @foreach ($categories as $category)
                 <li>
                     <a
-                        href="{{ route('home', array_filter(['categoria' => $category->slug, 'busca' => $busca, 'cidade' => $currentCity] + $ordemParam)) }}"
+                        href="{{ route('home', array_filter(['categoria' => $category->slug, 'busca' => $busca, 'city' => $currentCity] + $ordemParam)) }}"
                         class="filter-dropdown__option {{ $currentCategory === $category->slug ? 'filter-dropdown__option--active' : '' }}"
                         @click.prevent="apply($el.getAttribute('href'))"
                     >{{ $category->name }}</a>
@@ -110,10 +110,10 @@
                 @foreach ($cities as $city)
                     <li>
                         <a
-                            href="{{ route('home', array_filter(['cidade' => $city, 'busca' => $busca, 'categoria' => $currentCategory] + $ordemParam)) }}"
-                            class="filter-dropdown__option {{ $currentCity === $city ? 'filter-dropdown__option--active' : '' }}"
+                            href="{{ route('home', array_filter(['city' => $city->name, 'busca' => $busca, 'categoria' => $currentCategory] + $ordemParam)) }}"
+                            class="filter-dropdown__option {{ $currentCity === $city->name ? 'filter-dropdown__option--active' : '' }}"
                             @click.prevent="apply($el.getAttribute('href'))"
-                        >{{ $city }}</a>
+                        >{{ $city->name }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -147,7 +147,7 @@
                         href="{{ route('home', array_filter([
                             'ordem'     => $value === 'recentes' ? null : $value,
                             'categoria' => $currentCategory,
-                            'cidade'    => $currentCity,
+                            'city'      => $currentCity,
                             'busca'     => $busca,
                         ])) }}"
                         class="filter-dropdown__option {{ $ordem === $value ? 'filter-dropdown__option--active' : '' }}"

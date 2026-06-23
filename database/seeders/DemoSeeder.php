@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Producer;
 use App\Models\Product;
 use App\Models\Rating;
@@ -35,7 +36,7 @@ class DemoSeeder extends Seeder
                     'city'          => 'Rio do Sul',
                     'description'   => 'Produção orgânica de frutas e verduras no vale do Itajaí.',
                     'phone'         => '(47) 99100-0001',
-                    'whatsapp'      => '47991000001',
+                    'whatsapp'      => '(47) 99100-0001',
                     'contact_email' => 'ana@feirafeira.test',
                 ],
                 'products' => [
@@ -57,7 +58,7 @@ class DemoSeeder extends Seeder
                     'city'          => 'Taió',
                     'description'   => 'Ovos caipiras e laticínios artesanais produzidos com cuidado.',
                     'phone'         => '(47) 99100-0002',
-                    'whatsapp'      => '47991000002',
+                    'whatsapp'      => '(47) 99100-0002',
                     'contact_email' => 'carlos@feirafeira.test',
                 ],
                 'products' => [
@@ -78,7 +79,7 @@ class DemoSeeder extends Seeder
                     'city'          => 'Ibirama',
                     'description'   => 'Mel puro e produtos apícolas da Serra Catarinense.',
                     'phone'         => '(47) 99100-0003',
-                    'whatsapp'      => '47991000003',
+                    'whatsapp'      => '(47) 99100-0003',
                     'contact_email' => 'joana@feirafeira.test',
                 ],
                 'products' => [
@@ -370,7 +371,13 @@ class DemoSeeder extends Seeder
 
         foreach ($producers as $data) {
             $user = User::create($data['user']);
-            $producer = Producer::create(array_merge($data['producer'], ['user_id' => $user->id]));
+
+            $producerData = $data['producer'];
+            // A demo referencia a cidade por nome; resolve para a FK semeada por CitySeeder.
+            $producerData['city_id'] = City::where('name', $producerData['city'])->value('id');
+            unset($producerData['city']);
+
+            $producer = Producer::create(array_merge($producerData, ['user_id' => $user->id]));
 
             foreach ($data['products'] as $productData) {
                 $category = Category::where('name', $productData['category'])->first();
