@@ -43,7 +43,7 @@
             </div>
         @else
             <div class="table-wrapper">
-                <table class="products-table">
+                <table class="data-table">
                     <thead>
                         <tr>
                             <th>Foto</th>
@@ -82,12 +82,12 @@
                                     <span class="badge" :class="available ? 'badge--success' : 'badge--muted'" x-text="available ? 'Disponível' : 'Indisponível'"></span>
                                 </td>
                                 <td>
-                                    <button @click="toggleFeatured()" class="btn btn--sm" :class="featured ?  'btn--featured' : 'btn--outline'" type="button" title="toggle_destaque" x-text="featured ? '⭐ Em destaque' : 'Destacar'"></button>
+                                    <button @click="toggleFeatured()" class="btn btn--sm btn--toggle btn--toggle-featured" :class="featured ?  'btn--featured' : 'btn--outline'" type="button" title="toggle_destaque" x-text="featured ? '⭐ Em destaque' : 'Destacar'"></button>
                                 </td>
                                 <td>
                                     <div class="product-actions">
                                         <a class="btn btn--sm" href="{{ route('producer.products.edit', $product) }}">Editar</a>
-                                        <button @click="toggleAvailable()" class="btn btn--sm btn--outline" type="button" x-text="available ? 'Desativar' : 'Ativar'"></button>
+                                        <button @click="toggleAvailable()" class="btn btn--sm btn--outline btn--toggle" type="button" x-text="available ? 'Desativar' : 'Ativar'"></button>
 
                                         <form method="POST" action="{{ route('producer.products.destroy', $product) }}"
                                             onsubmit="return confirm('Deseja excluir este produto?')">
@@ -138,7 +138,7 @@
             </div>
         @else
             <div class="table-wrapper">
-                <table class="products-table">
+                <table class="data-table">
                     <thead>
                         <tr>
                             <th>Comprador</th>
@@ -153,8 +153,8 @@
                             <tr x-data="ratingRow({{ $rating->hidden ? 'true' : 'false' }}, '{{ route('dashboard.ratings.toggle', $rating) }}')"
                                 @ratings-visibility-change.window="onBulkChange($event.detail.hidden)">
 
-                                <td>{{ $rating->buyer->name ?? 'Comprador' }}</td>
-                                <td>
+                                <td class="col-center">{{ $rating->buyer->name ?? 'Comprador' }}</td>
+                                <td class="col-center">
                                     <span class="star-display">
                                         @for ($i = 1; $i <= 5; $i++)
                                             <span class="star-display__star {{ $i <= $rating->stars ? 'star-display__star--filled' : '' }}">★</span>
@@ -165,11 +165,11 @@
                                     @endif
                                 </td>
                                 <td class="ratings-panel__comment">{{ $rating->comment ?: '—' }}</td>
-                                <td>
+                                <td class="col-center">
                                     <span class="badge" :class="hidden ? 'badge--muted' : 'badge--success'" x-text="hidden ? 'Oculta' : 'Visível'"></span>
                                 </td>
-                                <td>
-                                    <button class="btn btn--sm btn--outline" type="button" @click="toggle()" :disabled="loading" x-text="hidden ? 'Exibir' : 'Ocultar'"></button>
+                                <td class="col-center">
+                                    <button class="btn btn--sm btn--outline btn--toggle" type="button" @click="toggle()" :disabled="loading" x-text="hidden ? 'Exibir' : 'Ocultar'"></button>
                                 </td>
 
                             </tr>

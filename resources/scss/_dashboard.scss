@@ -224,7 +224,7 @@
     overflow-x: auto;
 }
 
-.products-table {
+.data-table {
     width: 100%;
     border-collapse: collapse;
     font-size: $font-size-sm;
@@ -240,10 +240,17 @@
         background: #f3f0eb;
         color: $color-text-muted;
         white-space: nowrap;
+        text-align: center;
     }
 
     tbody tr:hover {
         background: #fdfaf6;
+    }
+
+    // Utilitária: centraliza o conteúdo de uma coluna. Aplicar nas células
+    // (th/td) da coluna desejada.
+    .col-center {
+        text-align: center;
     }
 }
 
@@ -272,6 +279,10 @@
     border-radius: 99px;
     font-size: 0.75rem;
     font-weight: 600;
+    // Fixa a largura pelo rótulo mais longo ("Indisponível") para o badge
+    // não encolher/crescer ao alternar estado e reflowar a coluna.
+    min-width: 6rem;
+    text-align: center;
 
     &--success {
         background: #d1fae5;
@@ -316,6 +327,18 @@
         &:hover {
             background: color.adjust($color-secondary, $lightness: -8%);
         }
+    }
+
+    // Botões que alternam o rótulo ao clicar (Ativar/Desativar, Exibir/Ocultar,
+    // Destacar/Em destaque). Largura travada pelo rótulo mais longo para a
+    // coluna não reflowar a cada toggle.
+    &--toggle {
+        min-width: 6.5rem;
+        text-align: center;
+    }
+
+    &--toggle-featured {
+        min-width: 9rem;
     }
 }
 
